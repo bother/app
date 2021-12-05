@@ -7,9 +7,9 @@ import { Button } from '../components'
 import { LandingParamList } from '../navigators'
 import { tw } from '../styles'
 
-type Props = NativeStackScreenProps<LandingParamList, 'Home'>
+type Props = NativeStackScreenProps<LandingParamList, 'Landing'>
 
-export const Home: FunctionComponent<Props> = ({ navigation }) => (
+export const Landing: FunctionComponent<Props> = ({ navigation }) => (
   <View style={tw`items-center justify-center flex-1`}>
     <StatusBar style="dark" />
 
