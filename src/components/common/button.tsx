@@ -33,6 +33,8 @@ export const Button: FunctionComponent<Props> = ({
       {title}
     </Text>
 
-    {loading && <ActivityIndicator color={tw.color('white')} />}
+    {loading && (
+      <ActivityIndicator color={tw.color('white')} style={tw`ml-2`} />
+    )}
   </Pressable>
 )
