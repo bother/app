@@ -17,7 +17,7 @@ export const Header: FunctionComponent<NativeStackHeaderProps> = ({
     <StatusBar style="light" />
 
     <View style={tw`p-3`}>
-      <Text style={tw`text-lg text-center text-white font-satoshi-bold`}>
+      <Text style={tw`text-lg text-center text-white font-secret-bold`}>
         {options.title ?? route.name}
       </Text>
 

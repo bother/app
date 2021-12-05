@@ -29,7 +29,7 @@ export const Button: FunctionComponent<Props> = ({
       tw`flex-row items-center justify-center p-3 rounded-lg bg-primary-600`,
       style
     ]}>
-    <Text style={tw`text-base leading-tight text-white font-satoshi-medium`}>
+    <Text style={tw`text-base leading-tight text-white font-secret-medium`}>
       {title}
     </Text>
 

@@ -11,9 +11,9 @@ module.exports = {
       }
     },
     fontFamily: {
-      'satoshi-bold': ['Satoshi-Bold'],
-      'satoshi-medium': ['Satoshi-Medium'],
-      'satoshi-regular': ['Satoshi-Regular']
+      'secret-bold': ['Satoshi-Bold'],
+      'secret-medium': ['Satoshi-Medium'],
+      'secret-regular': ['Satoshi-Regular']
     }
   }
 }

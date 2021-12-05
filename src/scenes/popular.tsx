@@ -1,21 +1,24 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { FunctionComponent } from 'react'
-import { Image, Text, View } from 'react-native'
+import { FlatList } from 'react-native'
 
+import { Oops, PostCard, Separator } from '../components'
+import { usePosts } from '../hooks'
 import { MainParamList } from '../navigators'
-import { tw } from '../styles'
 
 type Props = NativeStackScreenProps<MainParamList, 'Popular'>
 
-export const Popular: FunctionComponent<Props> = () => (
-  <View style={tw`items-center justify-center flex-1`}>
-    <Image
-      source={require('../../assets/img/secret.png')}
-      style={tw`w-32 h-32`}
+export const Popular: FunctionComponent<Props> = () => {
+  const { error, posts, reload } = usePosts('popular')
+
+  return (
+    <FlatList
+      ItemSeparatorComponent={Separator}
+      ListEmptyComponent={
+        error ? <Oops label="Reload" message={error} onPress={reload} /> : null
+      }
+      data={posts}
+      renderItem={({ item }) => <PostCard post={item} />}
     />
-    <Text style={tw`mt-8 text-4xl text-black font-satoshi-bold`}>Secret</Text>
-    <Text style={tw`text-lg text-gray-600 font-satoshi-medium`}>
-      Share your secrets, anonymously
-    </Text>
-  </View>
-)
+  )
+}
