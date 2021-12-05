@@ -26,7 +26,7 @@ export const Button: FunctionComponent<Props> = ({
     disabled={disabled || loading}
     onPress={onPress}
     style={[
-      tw`items-center justify-center p-3 rounded-lg bg-primary-600`,
+      tw`flex-row items-center justify-center p-3 rounded-lg bg-primary-600`,
       style
     ]}>
     <Text style={tw`text-base leading-tight text-white font-satoshi-medium`}>
