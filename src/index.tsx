@@ -8,7 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { UserContextProvider } from './contexts'
 import { FONTS } from './lib'
-import { LandingNavigator } from './navigators'
+import { LandingNavigator, MainNavigator } from './navigators'
 import { useAuth } from './stores'
 import { navTheme, tw } from './styles'
 
@@ -34,7 +34,7 @@ export const Secret: FunctionComponent = () => {
           <NavigationContainer theme={navTheme}>
             <StatusBar style="light" />
 
-            <LandingNavigator />
+            {auth ? <MainNavigator /> : <LandingNavigator />}
           </NavigationContainer>
         </UserContextProvider>
       </KeyboardAvoidingView>
