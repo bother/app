@@ -6199,6 +6199,11 @@ react-refresh@^0.4.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
+react-sweet-state@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/react-sweet-state/-/react-sweet-state-2.5.2.tgz#ec220bfe08acc5eb8d957454dcb4a00e9e179107"
+  integrity sha512-iMEhwhJSAOpfdgpHfWX/W4JcLyc7fvfaeACsCiDpn+xXrVGrncHTLeKiNHqPHhEpRZHJLmKIleFal6KrL8ZpMw==
+
 react@17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
