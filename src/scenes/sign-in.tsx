@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { UserCredentials } from '@supabase/supabase-js'
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,11 +8,14 @@ import { TextBox } from '../components'
 import { Button, Message } from '../components'
 import { supabase } from '../lib'
 import { LandingParamList } from '../navigators'
+import { useAuth } from '../stores'
 import { tw } from '../styles'
 
 type Props = NativeStackScreenProps<LandingParamList, 'SignIn'>
 
 export const SignIn: FunctionComponent<Props> = () => {
+  const [, { signIn }] = useAuth()
+
   const emailRef = useRef<TextInput>(null)
   const passwordRef = useRef<TextInput>(null)
 
@@ -34,24 +38,28 @@ export const SignIn: FunctionComponent<Props> = () => {
       try {
         setLoading(action)
 
-        const method =
-          action === 'sign-in' ? supabase.auth.signIn : supabase.auth.signUp
-
-        const { error } = await method({
+        const data: UserCredentials = {
           email,
           password
-        })
+        }
+
+        const { error } =
+          action === 'sign-in'
+            ? await supabase.auth.signIn(data)
+            : await supabase.auth.signUp(data)
 
         if (error) {
           throw new Error(error.message)
         }
+
+        signIn()
       } catch (error) {
         setError(error.message)
       } finally {
         setLoading(undefined)
       }
     },
-    [email, password]
+    [email, password, signIn]
   )
 
   return (
