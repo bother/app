@@ -2,26 +2,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
 import { TabBar } from '../components'
-import { Latest, Nearby, Popular } from '../scenes'
+import { Empty, Latest, Nearby, Popular } from '../scenes'
 
 export type MainParamList = {
+  Create: undefined
   Latest: undefined
-  Popular: undefined
   Nearby: undefined
+  Popular: undefined
+  Profile: undefined
 }
 
 const { Navigator, Screen } = createBottomTabNavigator<MainParamList>()
 
 export const MainNavigator: FunctionComponent = () => (
-  <Navigator
-    screenOptions={
-      {
-        // tabBar: TabBar
-        // gestureEnabled: true
-        // header: Header
-      }
-    }
-    tabBar={TabBar}>
+  <Navigator tabBar={TabBar}>
     <Screen
       component={Popular}
       name="Popular"
@@ -41,6 +35,20 @@ export const MainNavigator: FunctionComponent = () => (
       name="Latest"
       options={{
         title: 'Latest'
+      }}
+    />
+    <Screen
+      component={Empty}
+      name="Create"
+      options={{
+        title: 'New post'
+      }}
+    />
+    <Screen
+      component={Empty}
+      name="Profile"
+      options={{
+        title: 'Profile'
       }}
     />
   </Navigator>

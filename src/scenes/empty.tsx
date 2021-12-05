@@ -3,13 +3,12 @@ import { StatusBar } from 'expo-status-bar'
 import React, { FunctionComponent } from 'react'
 import { Image, Text, View } from 'react-native'
 
-import { Button } from '../components'
-import { LandingParamList } from '../navigators'
+import { MainParamList } from '../navigators'
 import { tw } from '../styles'
 
-type Props = NativeStackScreenProps<LandingParamList, 'Landing'>
+type Props = NativeStackScreenProps<MainParamList, 'Create'>
 
-export const Landing: FunctionComponent<Props> = ({ navigation }) => (
+export const Empty: FunctionComponent<Props> = () => (
   <View style={tw`items-center justify-center flex-1`}>
     <StatusBar style="dark" />
 
@@ -21,11 +20,5 @@ export const Landing: FunctionComponent<Props> = ({ navigation }) => (
     <Text style={tw`text-lg text-gray-600 font-secret-medium`}>
       Share your secrets, anonymously
     </Text>
-
-    <Button
-      onPress={() => navigation.navigate('SignIn')}
-      style={tw`mt-8`}
-      title="Sign in"
-    />
   </View>
 )

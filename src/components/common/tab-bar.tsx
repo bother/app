@@ -35,7 +35,7 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
               })
             }
           }}
-          style={tw`items-center flex-1 p-3`}>
+          style={tw`items-center flex-1 p-4`}>
           <Svg
             fill={tw.color(isFocused ? 'primary-600' : 'gray-400')}
             height={24}
@@ -50,6 +50,12 @@ export const TabBar: FunctionComponent<BottomTabBarProps> = ({
 )
 
 const icons: Record<string, ReactNode> = {
+  Create: (
+    <>
+      <Circle cx="12" cy="12" opacity=".35" r="10" />
+      <Path d="M17,11h-3c-0.552,0-1-0.448-1-1V7c0-0.552-0.448-1-1-1s-1,0.448-1,1v3c0,0.552-0.448,1-1,1H7c-0.552,0-1,0.448-1,1	s0.448,1,1,1h3c0.552,0,1,0.448,1,1v3c0,0.552,0.448,1,1,1s1-0.448,1-1v-3c0-0.552,0.448-1,1-1h3c0.552,0,1-0.448,1-1	S17.552,11,17,11z" />
+    </>
+  ),
   Latest: (
     <>
       <Circle cx="12" cy="12" opacity=".35" r="10" />
@@ -72,6 +78,13 @@ const icons: Record<string, ReactNode> = {
         opacity=".35"
       />
       <Path d="M19.5,3c-0.386,0-14.614,0-15,0C3.672,3,3,3.672,3,4.5S3.672,6,4.5,6c0.386,0,14.614,0,15,0C20.328,6,21,5.328,21,4.5	S20.328,3,19.5,3z" />
+    </>
+  ),
+  Profile: (
+    <>
+      <Circle cx="12" cy="12" opacity=".35" r="10" />
+      <Circle cx="12" cy="9" r="3" />
+      <Path d="M17.883,15.784C17.574,14.755,16.63,14,15.5,14h-7c-1.13,0-2.074,0.755-2.383,1.784C7.362,17.717,9.529,19,12,19	S16.638,17.717,17.883,15.784z" />
     </>
   )
 }

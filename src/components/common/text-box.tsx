@@ -25,7 +25,7 @@ export const TextBox = forwardRef<TextInput, Props>(
       {...props}
       placeholderTextColor={tw.color('gray-400')}
       style={[
-        tw`p-3 text-base leading-tight text-black bg-gray-100 rounded-lg font-satoshi-regular`,
+        tw`p-3 text-base leading-tight text-black bg-gray-100 rounded-lg font-secret-regular`,
         style
       ]}
     />

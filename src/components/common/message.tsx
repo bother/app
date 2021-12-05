@@ -9,7 +9,11 @@ type Props = {
   style?: StyleProp<ViewStyle>
 }
 
-export const Message: FunctionComponent<Props> = ({ message, style, type }) => (
+export const Message: FunctionComponent<Props> = ({
+  message,
+  style,
+  type = 'message'
+}) => (
   <View
     style={[
       tw.style(
@@ -24,6 +28,6 @@ export const Message: FunctionComponent<Props> = ({ message, style, type }) => (
       ),
       style
     ]}>
-    <Text style={tw`text-base text-white font-satoshi-regular`}>{message}</Text>
+    <Text style={tw`text-base text-white font-secret-regular`}>{message}</Text>
   </View>
 )
