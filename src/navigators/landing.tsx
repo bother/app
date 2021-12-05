@@ -2,10 +2,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { FunctionComponent } from 'react'
 
 import { Header } from '../components'
-import { Home, SignIn } from '../scenes'
+import { Landing, SignIn } from '../scenes'
 
 export type LandingParamList = {
-  Home: undefined
+  Landing: undefined
   SignIn: undefined
 }
 
@@ -18,11 +18,10 @@ export const LandingNavigator: FunctionComponent = () => (
       header: Header
     }}>
     <Screen
-      component={Home}
-      name="Home"
+      component={Landing}
+      name="Landing"
       options={{
-        headerShown: false,
-        title: 'Home'
+        headerShown: false
       }}
     />
     <Screen
