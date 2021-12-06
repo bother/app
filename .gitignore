@@ -1,7 +1,9 @@
+.DS_Store
 .expo/
 *.env
 *.jks
 *.key
+*.log
 *.mobileprovision
 *.orig.*
 *.p12
@@ -10,6 +12,3 @@ dist/
 node_modules/
 npm-debug.*
 web-build/
-
-# macOS
-.DS_Store

@@ -20,7 +20,7 @@ export const PostCard: FunctionComponent<Props> = ({
   style
 }) => (
   <Pressable onPress={onPress} style={[tw`flex-row items-center p-4`, style]}>
-    <Avatar seed={post.userId} size={48} />
+    <Avatar seed={post.id + post.userId} size={48} />
 
     <View style={tw`flex-1 ml-4`}>
       <Text style={tw`text-base text-black font-secret-regular`}>

@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
 import { TabBar } from '../components'
-import { Empty, Latest, Nearby, Popular } from '../scenes'
+import { Empty, Latest, Nearby, Popular, Profile } from '../scenes'
 
 export type MainParamList = {
   Create: undefined
@@ -45,7 +45,7 @@ export const MainNavigator: FunctionComponent = () => (
       }}
     />
     <Screen
-      component={Empty}
+      component={Profile}
       name="Profile"
       options={{
         title: 'Profile'
