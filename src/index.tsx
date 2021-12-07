@@ -2,24 +2,20 @@ import { NavigationContainer } from '@react-navigation/native'
 import AppLoading from 'expo-app-loading'
 import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 import { KeyboardAvoidingView, Platform } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { UserContextProvider } from './contexts'
+import { useAuth } from './hooks'
 import { FONTS } from './lib'
-import { LandingNavigator, MainNavigator } from './navigators'
-import { useAuth } from './stores'
+import { MainNavigator } from './navigators'
 import { navTheme, tw } from './styles'
 
 export const Secret: FunctionComponent = () => {
   const [loaded] = useFonts(FONTS)
 
-  const [{ auth, loading }, { init }] = useAuth()
-
-  useEffect(() => {
-    init()
-  }, [init])
+  const { loading } = useAuth()
 
   if (!loaded || loading) {
     return <AppLoading />
@@ -34,7 +30,7 @@ export const Secret: FunctionComponent = () => {
           <NavigationContainer theme={navTheme}>
             <StatusBar style="light" />
 
-            {auth ? <MainNavigator /> : <LandingNavigator />}
+            <MainNavigator />
           </NavigationContainer>
         </UserContextProvider>
       </KeyboardAvoidingView>

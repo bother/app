@@ -14,14 +14,14 @@ export const Profile: FunctionComponent<Props> = () => (
     contentContainerStyle={tw`items-center justify-center flex-grow`}
     style={tw`flex-1`}>
     <Message message="This is an error message" type="error" />
-    <Message message="This is an message" style={tw`mt-4`} type="message" />
+    <Message message="This is a message" style={tw`mt-4`} type="message" />
     <Message
       message="This is a success message"
       style={tw`mt-4`}
       type="success"
     />
     <Message
-      message="This is an warning message"
+      message="This is a warning message"
       style={tw`mt-4`}
       type="warning"
     />
