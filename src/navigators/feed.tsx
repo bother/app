@@ -16,7 +16,6 @@ export const FeedNavigator: FunctionComponent = () => (
   <Navigator
     screenOptions={{
       lazy: true
-      // header: StackHeader
     }}
     tabBar={TopTabBar}>
     <Screen

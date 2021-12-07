@@ -19,18 +19,16 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <HeaderButton
-          icon="plus"
+          icon="send"
           loading={loading}
           onPress={async () => {
             if (!body) {
               return
             }
 
-            const post = await createPost(body)
+            await createPost(body)
 
-            navigation.navigate('Post', {
-              id: post.id
-            })
+            setBody('')
           }}
         />
       )
@@ -52,21 +50,28 @@ Community rules:
 - No bullying
 - No criminal behavior
 - No racism, sexism, or hate speech of any kind`}
-        style={tw`flex-1`}
+        style={tw`flex-1 rounded-b-none`}
         value={body}
       />
 
       <View
-        pointerEvents="none"
         style={tw.style(
-          'absolute p-2 rounded-lg bottom-8 right-8',
-          body.length > POST_MAX_LENGTH && 'bg-rose-600',
-          body.length < POST_MIN_LENGTH && 'bg-amber-600',
+          'p-3 items-center bg-gray-200 rounded-b-lg',
+          body.length > POST_MAX_LENGTH && 'border-rose-600',
+          body.length < POST_MIN_LENGTH && 'border-amber-600',
           body.length >= POST_MIN_LENGTH &&
             body.length <= POST_MAX_LENGTH &&
-            'bg-emerald-600'
+            'border-emerald-600'
         )}>
-        <Text style={tw`text-sm leading-tight text-white font-secret-medium`}>
+        <Text
+          style={tw.style(
+            'text-sm leading-tight font-secret-bold',
+            body.length > POST_MAX_LENGTH && 'text-rose-600',
+            body.length < POST_MIN_LENGTH && 'text-amber-600',
+            body.length >= POST_MIN_LENGTH &&
+              body.length <= POST_MAX_LENGTH &&
+              'text-emerald-600'
+          )}>
           {body.length} / {POST_MAX_LENGTH}
         </Text>
       </View>

@@ -17,7 +17,8 @@ const { Navigator, Screen } = createBottomTabNavigator<MainParamList>()
 export const MainNavigator: FunctionComponent = () => (
   <Navigator
     screenOptions={{
-      header: TabHeader
+      header: TabHeader,
+      lazy: true
     }}
     tabBar={BottomTabBar}>
     <Screen

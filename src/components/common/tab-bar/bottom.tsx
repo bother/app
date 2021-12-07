@@ -19,7 +19,21 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
       return (
         <Pressable
           key={route.key}
-          onPress={() => navigation.navigate(route.name)}
+          onPress={() => {
+            const event = navigation.emit({
+              canPreventDefault: true,
+              target: route.key,
+              type: 'tabPress'
+            })
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate({
+                merge: true,
+                name: route.name,
+                params: {}
+              })
+            }
+          }}
           style={tw`items-center flex-1 p-4`}>
           <Svg
             fill={tw.color(isFocused ? 'primary-600' : 'gray-400')}

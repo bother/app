@@ -19,7 +19,21 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
       return (
         <Pressable
           key={route.key}
-          onPress={() => navigation.navigate(route.name)}
+          onPress={() => {
+            const event = navigation.emit({
+              canPreventDefault: true,
+              target: route.key,
+              type: 'tabPress'
+            })
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate({
+                merge: true,
+                name: route.name,
+                params: {}
+              })
+            }
+          }}
           style={tw`items-center flex-1 p-3`}>
           <View
             style={tw.style('p-2 rounded-lg', isFocused && 'bg-primary-800')}>
