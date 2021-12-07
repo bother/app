@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { ActivityIndicator, Pressable } from 'react-native'
+import { Pressable } from 'react-native'
 
 import { tw } from '../../../styles'
 import { HeaderIconName } from '../../../types'
+import { Spinner } from '../spinner'
 import { HeaderIcon } from './icon'
 
 type Props = {
@@ -19,7 +20,7 @@ export const HeaderButton: FunctionComponent<Props> = ({
 }) => (
   <Pressable disabled={loading} onPress={onPress} style={tw`p-4`}>
     {loading ? (
-      <ActivityIndicator color={tw.color('white')} />
+      <Spinner color={tw.color('white')} />
     ) : (
       <HeaderIcon name={icon} />
     )}

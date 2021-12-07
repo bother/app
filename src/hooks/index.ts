@@ -1,8 +1,9 @@
 // auth
 
 export * from './auth'
-export * from './posts'
 
 // posts
 
 export * from './posts/create'
+export * from './posts/post'
+export * from './posts/posts'

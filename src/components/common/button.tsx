@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import {
-  ActivityIndicator,
   ButtonProps,
   Pressable,
   StyleProp,
@@ -9,6 +8,7 @@ import {
 } from 'react-native'
 
 import { tw } from '../../styles'
+import { Spinner } from './spinner'
 
 type Props = Pick<ButtonProps, 'onPress' | 'title' | 'disabled'> & {
   loading?: boolean
@@ -33,8 +33,6 @@ export const Button: FunctionComponent<Props> = ({
       {title}
     </Text>
 
-    {loading && (
-      <ActivityIndicator color={tw.color('white')} style={tw`ml-2`} />
-    )}
+    {loading && <Spinner color={tw.color('white')} style={tw`ml-2`} />}
   </Pressable>
 )
