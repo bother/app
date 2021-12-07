@@ -53,23 +53,25 @@ export const usePosts = (type: Type, coordinates?: Coordinates): Returns => {
         throw new Error(error.message)
       }
 
-      if (data) {
-        let posts = data.map((post) => ({
-          ...post,
-          comments: post.comments.length,
-          votes: sumBy(post.votes, 'vote')
-        }))
-
-        if (type === 'popular') {
-          posts = orderBy(posts, 'createdAt')
-        }
-
-        setPosts(posts)
+      if (!data) {
+        throw new Error('Something went wrong')
       }
 
-      setLoading(false)
+      let posts = data.map((post) => ({
+        ...post,
+        comments: post.comments.length,
+        votes: sumBy(post.votes, 'vote')
+      }))
+
+      if (type === 'popular') {
+        posts = orderBy(posts, 'createdAt')
+      }
+
+      setPosts(posts)
     } catch (error) {
       setError(error.message)
+    } finally {
+      setLoading(false)
     }
   }, [])
 
