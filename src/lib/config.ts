@@ -8,6 +8,5 @@ export const FONTS = {
 
 // supabase
 
-export const SUPABASE_URL = 'https://uuawxbffkzuwfjnwpzac.supabase.co'
-export const SUPABASE_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzODY5MjkyMiwiZXhwIjoxOTU0MjY4OTIyfQ.vlEAuM_92grUDYVVtdj91w66_M4ELJUkFRYKdgStmqo'
+export const SUPABASE_URL = process.env.SUPABASE_URL
+export const SUPABASE_KEY = process.env.SUPABASE_KEY

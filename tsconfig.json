@@ -3,5 +3,6 @@
     "strict": true,
     "useUnknownInCatchVariables": false
   },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "include": ["typings/*.d.ts"]
 }
