@@ -1,11 +1,11 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 import { Image, Text, View } from 'react-native'
 
 import { MainParamList } from '../navigators'
 import { tw } from '../styles'
 
-type Props = NativeStackScreenProps<MainParamList, 'Create'>
+type Props = BottomTabScreenProps<MainParamList, 'Profile'>
 
 export const Empty: FunctionComponent<Props> = () => (
   <View style={tw`items-center justify-center flex-1`}>

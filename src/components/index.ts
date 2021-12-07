@@ -2,12 +2,15 @@
 
 export { Avatar } from './common/avatar'
 export { Button } from './common/button'
-export { Header } from './common/header'
-export { ArrowIcon, Icon } from './common/icon'
+export { HeaderButton } from './common/header/button'
+export { StackHeader } from './common/header/stack'
+export { TabHeader } from './common/header/tab'
+export { Icon } from './common/icon'
 export { Message } from './common/message'
 export { Oops } from './common/oops'
 export { Separator } from './common/separator'
-export { TabBar } from './common/tab-bar'
+export { BottomTabBar } from './common/tab-bar/bottom'
+export { TopTabBar } from './common/tab-bar/top'
 export { TextBox } from './common/text-box'
 
 // posts

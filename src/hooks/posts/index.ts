@@ -2,8 +2,8 @@ import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import { useCallback, useEffect, useState } from 'react'
 
-import { supabase } from '../lib'
-import { Coordinates, Post, SupabasePost } from '../types'
+import { supabase } from '../../lib'
+import { Coordinates, Post, SupabasePost } from '../../types'
 
 type Type = 'popular' | 'nearby' | 'latest'
 
