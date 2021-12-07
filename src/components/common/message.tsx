@@ -3,10 +3,11 @@ import { StyleProp, Text, View, ViewStyle } from 'react-native'
 import Svg, { Circle, Path } from 'react-native-svg'
 
 import { tw } from '../../styles'
+import { MessageType } from '../../types'
 
 type Props = {
   message: string
-  type?: 'message' | 'error' | 'warning' | 'success'
+  type?: MessageType
   style?: StyleProp<ViewStyle>
 }
 

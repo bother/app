@@ -10,3 +10,8 @@ export const FONTS = {
 
 export const SUPABASE_URL = process.env.SUPABASE_URL
 export const SUPABASE_KEY = process.env.SUPABASE_KEY
+
+// components
+
+export const POST_MIN_LENGTH = 20
+export const POST_MAX_LENGTH = 240

@@ -1,12 +1,12 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import React, { FunctionComponent } from 'react'
 import { FlatList } from 'react-native'
 
 import { Oops, PostCard, Separator } from '../components'
 import { usePosts } from '../hooks'
-import { MainParamList } from '../navigators'
+import { FeedParamList } from '../navigators'
 
-type Props = NativeStackScreenProps<MainParamList, 'Popular'>
+type Props = MaterialTopTabScreenProps<FeedParamList, 'Popular'>
 
 export const Popular: FunctionComponent<Props> = () => {
   const { error, posts, reload } = usePosts('popular')

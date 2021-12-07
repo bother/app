@@ -1,13 +1,13 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import React, { FunctionComponent } from 'react'
 import { FlatList } from 'react-native'
 
 import { Oops, PostCard, Separator } from '../components'
 import { usePosts } from '../hooks'
-import { MainParamList } from '../navigators'
+import { FeedParamList } from '../navigators'
 import { tw } from '../styles'
 
-type Props = NativeStackScreenProps<MainParamList, 'Nearby'>
+type Props = MaterialTopTabScreenProps<FeedParamList, 'Nearby'>
 
 export const Nearby: FunctionComponent<Props> = () => {
   const { error, posts, reload } = usePosts('nearby')

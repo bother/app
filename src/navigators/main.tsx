@@ -1,47 +1,44 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
-import { TabBar } from '../components'
-import { Empty, Latest, Nearby, Popular, Profile } from '../scenes'
+import { BottomTabBar, TabHeader } from '../components'
+import { CreatePost, Empty, Profile } from '../scenes'
+import { PostsNavigator } from './posts'
 
 export type MainParamList = {
-  Create: undefined
-  Latest: undefined
-  Nearby: undefined
-  Popular: undefined
+  Conversations: undefined
+  CreatePost: undefined
+  Posts: undefined
   Profile: undefined
 }
 
 const { Navigator, Screen } = createBottomTabNavigator<MainParamList>()
 
 export const MainNavigator: FunctionComponent = () => (
-  <Navigator tabBar={TabBar}>
+  <Navigator
+    screenOptions={{
+      header: TabHeader
+    }}
+    tabBar={BottomTabBar}>
     <Screen
-      component={Popular}
-      name="Popular"
+      component={PostsNavigator}
+      name="Posts"
       options={{
-        title: 'Popular'
+        headerShown: false
       }}
     />
     <Screen
-      component={Nearby}
-      name="Nearby"
+      component={CreatePost}
+      name="CreatePost"
       options={{
-        title: 'Nearby'
-      }}
-    />
-    <Screen
-      component={Latest}
-      name="Latest"
-      options={{
-        title: 'Latest'
+        title: 'New post'
       }}
     />
     <Screen
       component={Empty}
-      name="Create"
+      name="Conversations"
       options={{
-        title: 'New post'
+        title: 'Conversations'
       }}
     />
     <Screen

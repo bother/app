@@ -9,6 +9,7 @@ type Props = Pick<
   | 'autoCorrect'
   | 'autoFocus'
   | 'keyboardType'
+  | 'multiline'
   | 'onChangeText'
   | 'onSubmitEditing'
   | 'placeholder'
@@ -19,15 +20,17 @@ type Props = Pick<
 >
 
 export const TextBox = forwardRef<TextInput, Props>(
-  ({ style, ...props }, ref) => (
+  ({ multiline, style, ...props }, ref) => (
     <TextInput
-      ref={ref}
       {...props}
+      multiline={multiline}
       placeholderTextColor={tw.color('gray-400')}
+      ref={ref}
       style={[
         tw`p-3 text-base leading-tight text-black bg-gray-100 rounded-lg font-secret-regular`,
         style
       ]}
+      textAlignVertical={multiline ? 'top' : 'center'}
     />
   )
 )

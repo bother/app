@@ -1,7 +1,10 @@
+import { useNavigation } from '@react-navigation/core'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
 
+import { PostsParamList } from '../../navigators'
 import { tw } from '../../styles'
 import { Post } from '../../types'
 import { Avatar } from '../common/avatar'
@@ -9,50 +12,70 @@ import { Icon } from '../common/icon'
 
 type Props = {
   post: Post
+  unlink?: boolean
   style?: StyleProp<ViewStyle>
-
-  onPress?: () => void
 }
 
-export const PostCard: FunctionComponent<Props> = ({
-  onPress,
-  post,
-  style
-}) => (
-  <Pressable onPress={onPress} style={[tw`flex-row items-center p-4`, style]}>
-    <Avatar seed={post.id + post.userId} size={48} />
+export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<PostsParamList>>()
 
-    <View style={tw`flex-1 ml-4`}>
-      <Text style={tw`text-base text-black font-secret-regular`}>
-        {post.body}
-      </Text>
+  return (
+    <Pressable
+      onPress={() => {
+        if (unlink) {
+          return
+        }
 
-      <View style={tw`flex-row items-center mt-4`}>
-        <Icon color={tw.color('gray-600')} name="clock" size={20} />
-        <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
-          {formatDistanceToNow(parseISO(post.createdAt))}
+        navigate('Post', {
+          id: post.id
+        })
+      }}
+      style={[tw`flex-row items-center p-4`, style]}>
+      <Avatar seed={post.id + post.userId} size={48} />
+
+      <View style={tw`flex-1 ml-4`}>
+        <Text style={tw`text-base text-black font-secret-regular`}>
+          {post.body}
         </Text>
 
-        <Icon
-          color={tw.color('gray-600')}
-          name="thumb-up"
-          size={20}
-          style={tw`ml-4`}
-        />
-        <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
-          {post.votes}
-        </Text>
+        <View style={tw`flex-row items-center mt-4`}>
+          <Icon color={tw.color('gray-600')} name="clock" size={20} />
+          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+            {formatDistanceToNow(parseISO(post.createdAt))}
+          </Text>
 
-        <Icon
-          color={tw.color('gray-600')}
-          name="comments"
-          size={20}
-          style={tw`ml-4`}
-        />
-        <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
-          {post.comments}
-        </Text>
+          <Icon
+            color={tw.color('gray-600')}
+            name="thumb-up"
+            size={20}
+            style={tw`ml-4`}
+          />
+          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+            {post.votes}
+          </Text>
+
+          <Icon
+            color={tw.color('gray-600')}
+            name="comments"
+            size={20}
+            style={tw`ml-4`}
+          />
+          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+            {post.comments}
+          </Text>
+
+          <Icon
+            color={tw.color('gray-600')}
+            name="marker"
+            size={20}
+            style={tw`ml-4`}
+          />
+          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+            2km
+          </Text>
+        </View>
       </View>
-    </View>
-  </Pressable>
-)
+    </Pressable>
+  )
+}
