@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { formatDistanceToNow, parseISO } from 'date-fns'
+import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
 
@@ -42,7 +42,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
         <View style={tw`flex-row items-center mt-4`}>
           <Icon color={tw.color('gray-600')} name="clock" size={20} />
           <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
-            {formatDistanceToNow(parseISO(post.createdAt))}
+            {formatDistanceToNowStrict(parseISO(post.createdAt))}
           </Text>
 
           <Icon
