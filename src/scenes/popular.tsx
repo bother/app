@@ -5,6 +5,7 @@ import { FlatList } from 'react-native'
 import { Oops, PostCard, Separator } from '../components'
 import { usePosts } from '../hooks'
 import { FeedParamList } from '../navigators'
+import { tw } from '../styles'
 
 type Props = MaterialTopTabScreenProps<FeedParamList, 'Popular'>
 
@@ -17,6 +18,7 @@ export const Popular: FunctionComponent<Props> = () => {
       ListEmptyComponent={
         error ? <Oops label="Reload" message={error} onPress={reload} /> : null
       }
+      contentContainerStyle={tw`flex-grow`}
       data={posts}
       renderItem={({ item }) => <PostCard post={item} />}
     />

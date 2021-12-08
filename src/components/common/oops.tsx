@@ -15,7 +15,7 @@ type Props = {
 export const Oops: FunctionComponent<Props> = ({ label, message, onPress }) => (
   <View style={tw`items-center justify-center flex-1`}>
     <Svg
-      fill={tw.color('accent-600')}
+      fill={tw.color('rose-600')}
       height={128}
       viewBox="0 0 24 24"
       width={128}>
@@ -30,7 +30,8 @@ export const Oops: FunctionComponent<Props> = ({ label, message, onPress }) => (
       <Path d="M13.25,17.63316a1.255,1.255,0,1,1-2.5,0A1.31608,1.31608,0,0,1,11.9935,16.25,1.32819,1.32819,0,0,1,13.25,17.63316ZM10.75,14.047V9.203A1.22718,1.22718,0,0,1,12,8h0a1.22718,1.22718,0,0,1,1.25,1.203V14.047A1.22718,1.22718,0,0,1,12,15.25h0A1.22718,1.22718,0,0,1,10.75,14.047Z" />
     </Svg>
 
-    <Text style={tw`mt-8 text-2xl text-black font-secret-medium`}>
+    <Text
+      style={tw`mx-8 mt-8 text-2xl text-center text-black font-secret-medium`}>
       {message}
     </Text>
 
