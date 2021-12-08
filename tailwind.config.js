@@ -6,7 +6,6 @@ module.exports = {
     colors,
     extend: {
       colors: {
-        accent: colors.sky,
         primary: colors.orange
       }
     },
