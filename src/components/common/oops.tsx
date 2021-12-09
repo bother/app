@@ -7,12 +7,18 @@ import { Button } from './button'
 
 type Props = {
   label: string
+  loading?: boolean
   message: string
 
   onPress: () => void
 }
 
-export const Oops: FunctionComponent<Props> = ({ label, message, onPress }) => (
+export const Oops: FunctionComponent<Props> = ({
+  label,
+  loading,
+  message,
+  onPress
+}) => (
   <View style={tw`items-center justify-center flex-1`}>
     <Svg
       fill={tw.color('rose-600')}
@@ -35,6 +41,11 @@ export const Oops: FunctionComponent<Props> = ({ label, message, onPress }) => (
       {message}
     </Text>
 
-    <Button onPress={onPress} style={tw`mt-4`} title={label} />
+    <Button
+      loading={loading}
+      onPress={onPress}
+      style={tw`mt-4`}
+      title={label}
+    />
   </View>
 )
