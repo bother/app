@@ -3,12 +3,12 @@ import React, { FunctionComponent } from 'react'
 
 import { BottomTabBar, TabHeader } from '../components'
 import { CreatePost, Empty, Profile } from '../scenes'
-import { PostsNavigator } from './posts'
+import { FeedNavigator } from './feed'
 
 export type MainParamList = {
   Conversations: undefined
   CreatePost: undefined
-  Posts: undefined
+  Feed: undefined
   Profile: undefined
 }
 
@@ -22,8 +22,8 @@ export const MainNavigator: FunctionComponent = () => (
     }}
     tabBar={BottomTabBar}>
     <Screen
-      component={PostsNavigator}
-      name="Posts"
+      component={FeedNavigator}
+      name="Feed"
       options={{
         headerShown: false
       }}

@@ -1,3 +1,7 @@
+// bother
+
+export const URL = 'https://bother.app'
+
 // fonts
 
 export const FONTS = {

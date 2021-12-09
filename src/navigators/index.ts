@@ -1,12 +1,12 @@
+// root
+
+export type { RootParamList } from './root'
+export { RootNavigator } from './root'
+
 // main
 
 export type { MainParamList } from './main'
 export { MainNavigator } from './main'
-
-// posts
-
-export type { PostsParamList } from './posts'
-export { PostsNavigator } from './posts'
 
 // feed
 

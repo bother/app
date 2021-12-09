@@ -18,3 +18,4 @@ export { TextBox } from './common/text-box'
 // posts
 
 export { PostCard } from './posts/card'
+export { PostHeader } from './posts/header'

@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react'
 
 import { useUser } from '../../contexts'
 import { supabase } from '../../lib'
-import { PostsParamList } from '../../navigators'
+import { RootParamList } from '../../navigators'
 import { Coordinates } from '../../types'
 
 type Returns = {
@@ -17,8 +17,7 @@ type Returns = {
 export const useCreatePost = (): Returns => {
   const { user } = useUser()
 
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<PostsParamList>>()
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootParamList>>()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()

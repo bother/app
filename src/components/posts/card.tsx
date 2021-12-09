@@ -4,7 +4,7 @@ import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
 
-import { PostsParamList } from '../../navigators'
+import { RootParamList } from '../../navigators'
 import { tw } from '../../styles'
 import { Post } from '../../types'
 import { Avatar } from '../common/avatar'
@@ -17,8 +17,7 @@ type Props = {
 }
 
 export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<PostsParamList>>()
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootParamList>>()
 
   return (
     <Pressable

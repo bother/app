@@ -4,10 +4,10 @@ import { FlatList } from 'react-native'
 
 import { Oops, PostCard, Spinner } from '../components'
 import { usePost } from '../hooks'
-import { PostsParamList } from '../navigators'
+import { RootParamList } from '../navigators'
 import { tw } from '../styles'
 
-type Props = BottomTabScreenProps<PostsParamList, 'Post'>
+type Props = BottomTabScreenProps<RootParamList, 'Post'>
 
 export const Post: FunctionComponent<Props> = ({ route: { params } }) => {
   const { error, loading, post, reload } = usePost(params.id)

@@ -9,7 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { UserContextProvider } from './contexts'
 import { useAuth } from './hooks'
 import { FONTS } from './lib'
-import { MainNavigator } from './navigators'
+import { RootNavigator } from './navigators'
 import { navTheme, tw } from './styles'
 
 export const Bother: FunctionComponent = () => {
@@ -30,7 +30,7 @@ export const Bother: FunctionComponent = () => {
           <NavigationContainer theme={navTheme}>
             <StatusBar style="light" />
 
-            <MainNavigator />
+            <RootNavigator />
           </NavigationContainer>
         </UserContextProvider>
       </KeyboardAvoidingView>

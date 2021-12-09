@@ -22,6 +22,7 @@
     "expo-app-loading": "~1.2.1",
     "expo-font": "~10.0.3",
     "expo-secure-store": "~11.0.3",
+    "expo-sharing": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "geolib": "^3.3.3",
     "nanoid": "^3.1.30",
