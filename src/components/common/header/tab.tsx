@@ -14,7 +14,7 @@ export const TabHeader: FunctionComponent<BottomTabHeaderProps> = ({
     <StatusBar style="light" />
 
     <View style={tw`p-3`}>
-      <Text style={tw`text-lg text-center text-white font-secret-bold`}>
+      <Text style={tw`text-lg text-center text-white font-bother-bold`}>
         {options.title ?? route.name}
       </Text>
 

@@ -37,7 +37,7 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
           style={tw`items-center flex-1 p-3`}>
           <View
             style={tw.style('p-2 rounded-lg', isFocused && 'bg-primary-800')}>
-            <Text style={tw`text-sm leading-tight text-white font-secret-bold`}>
+            <Text style={tw`text-sm leading-tight text-white font-bother-bold`}>
               {options.title ?? route.name}
             </Text>
           </View>

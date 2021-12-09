@@ -1,8 +1,8 @@
 <img src="./assets/img/icon.png" height="100" width="100" />
 
-# Secret
+# Bother
 
-Share your secrets, anonymously
+What bothers you?
 
 ## Development
 

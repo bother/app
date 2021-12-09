@@ -15,6 +15,9 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
 
   const [body, setBody] = useState('')
 
+  const tooShort = body.length < POST_MIN_LENGTH
+  const tooLong = body.length > POST_MAX_LENGTH
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -22,7 +25,7 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
           icon="send"
           loading={loading}
           onPress={async () => {
-            if (!body) {
+            if (!body || tooShort || tooLong) {
               return
             }
 
@@ -39,7 +42,7 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
         />
       )
     })
-  }, [body, createPost, loading, navigation])
+  }, [body, createPost, loading, navigation, tooLong, tooShort])
 
   return (
     <View style={tw`flex-1 p-4`}>
@@ -62,22 +65,11 @@ Community rules:
 
       <View
         style={tw.style(
-          'p-3 items-center bg-gray-200 rounded-b-lg',
-          body.length > POST_MAX_LENGTH && 'border-rose-600',
-          body.length < POST_MIN_LENGTH && 'border-amber-600',
-          body.length >= POST_MIN_LENGTH &&
-            body.length <= POST_MAX_LENGTH &&
-            'border-emerald-600'
+          'p-3 items-center rounded-b-lg bg-emerald-600',
+          tooLong && 'bg-rose-600',
+          tooShort && 'bg-amber-600'
         )}>
-        <Text
-          style={tw.style(
-            'text-sm leading-tight font-secret-bold',
-            body.length > POST_MAX_LENGTH && 'text-rose-600',
-            body.length < POST_MIN_LENGTH && 'text-amber-600',
-            body.length >= POST_MIN_LENGTH &&
-              body.length <= POST_MAX_LENGTH &&
-              'text-emerald-600'
-          )}>
+        <Text style={tw`text-sm leading-tight text-white font-bother-medium`}>
           {body.length} / {POST_MAX_LENGTH}
         </Text>
       </View>

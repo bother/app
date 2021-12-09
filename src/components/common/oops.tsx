@@ -31,7 +31,7 @@ export const Oops: FunctionComponent<Props> = ({ label, message, onPress }) => (
     </Svg>
 
     <Text
-      style={tw`mx-8 mt-8 text-2xl text-center text-black font-secret-medium`}>
+      style={tw`mx-8 mt-8 text-2xl text-center text-black font-bother-medium`}>
       {message}
     </Text>
 

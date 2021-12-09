@@ -35,13 +35,13 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
       <Avatar seed={post.id + post.userId} size={48} />
 
       <View style={tw`flex-1 ml-4`}>
-        <Text style={tw`text-base text-black font-secret-regular`}>
+        <Text style={tw`text-base text-black font-bother-regular`}>
           {post.body}
         </Text>
 
         <View style={tw`flex-row items-center mt-4`}>
           <Icon color={tw.color('gray-600')} name="clock" size={20} />
-          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+          <Text style={tw`ml-2 text-sm text-gray-600 font-bother-medium`}>
             {formatDistanceToNowStrict(parseISO(post.createdAt))}
           </Text>
 
@@ -51,7 +51,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
             size={20}
             style={tw`ml-4`}
           />
-          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+          <Text style={tw`ml-2 text-sm text-gray-600 font-bother-medium`}>
             {post.votes}
           </Text>
 
@@ -61,7 +61,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
             size={20}
             style={tw`ml-4`}
           />
-          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+          <Text style={tw`ml-2 text-sm text-gray-600 font-bother-medium`}>
             {post.comments}
           </Text>
 
@@ -71,7 +71,7 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
             size={20}
             style={tw`ml-4`}
           />
-          <Text style={tw`ml-2 text-sm text-gray-600 font-secret-medium`}>
+          <Text style={tw`ml-2 text-sm text-gray-600 font-bother-medium`}>
             2km
           </Text>
         </View>
