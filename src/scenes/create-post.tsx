@@ -1,16 +1,47 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import {
+  BottomTabNavigationProp,
+  BottomTabScreenProps
+} from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
 
-import { HeaderButton, Message, TextBox } from '../components'
+import { HeaderButton, Loading, Message, Oops, TextBox } from '../components'
 import { useCreatePost } from '../hooks'
 import { POST_MAX_LENGTH, POST_MIN_LENGTH } from '../lib'
 import { MainParamList } from '../navigators'
+import { useLocation } from '../stores'
 import { tw } from '../styles'
+import { Coordinates } from '../types'
 
 type Props = BottomTabScreenProps<MainParamList, 'CreatePost'>
 
 export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
+  const [{ coordinates, error, loading }, { fetch }] = useLocation()
+
+  if (loading && !error) {
+    return <Loading />
+  }
+
+  if (error) {
+    return (
+      <Oops
+        label="Try again"
+        loading={loading}
+        message="We need access to your location to create a post."
+        onPress={fetch}
+      />
+    )
+  }
+
+  return <Main coordinates={coordinates} navigation={navigation} />
+}
+
+type MainProps = {
+  coordinates: Coordinates
+  navigation: BottomTabNavigationProp<MainParamList, 'CreatePost'>
+}
+
+const Main: FunctionComponent<MainProps> = ({ coordinates, navigation }) => {
   const { createPost, error, loading } = useCreatePost()
 
   const [body, setBody] = useState('')
@@ -29,11 +60,7 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
               return
             }
 
-            // TODO: use real location
-            const success = await createPost(body, {
-              latitude: 25.1230021,
-              longitude: 55.1927943
-            })
+            const success = await createPost(body, coordinates)
 
             if (success) {
               setBody('')
@@ -42,7 +69,7 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
         />
       )
     })
-  }, [body, createPost, loading, navigation, tooLong, tooShort])
+  }, [body, coordinates, createPost, loading, navigation, tooLong, tooShort])
 
   return (
     <View style={tw`flex-1 p-4`}>

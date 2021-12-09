@@ -4,7 +4,9 @@ import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
 
+import { getKm } from '../../lib'
 import { RootParamList } from '../../navigators'
+import { useLocation } from '../../stores'
 import { tw } from '../../styles'
 import { Post } from '../../types'
 import { Avatar } from '../common/avatar'
@@ -18,6 +20,8 @@ type Props = {
 
 export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
   const { navigate } = useNavigation<NativeStackNavigationProp<RootParamList>>()
+
+  const [{ coordinates }] = useLocation()
 
   return (
     <Pressable
@@ -64,15 +68,19 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
             {post.comments}
           </Text>
 
-          <Icon
-            color={tw.color('gray-600')}
-            name="marker"
-            size={20}
-            style={tw`ml-4`}
-          />
-          <Text style={tw`ml-2 text-sm text-gray-600 font-bother-medium`}>
-            2km
-          </Text>
+          {!!coordinates && (
+            <>
+              <Icon
+                color={tw.color('gray-600')}
+                name="marker"
+                size={20}
+                style={tw`ml-4`}
+              />
+              <Text style={tw`ml-2 text-sm text-gray-600 font-bother-medium`}>
+                {getKm(post, coordinates)}
+              </Text>
+            </>
+          )}
         </View>
       </View>
     </Pressable>
