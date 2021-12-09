@@ -10,9 +10,9 @@ module.exports = {
       }
     },
     fontFamily: {
-      'secret-bold': ['Satoshi-Bold'],
-      'secret-medium': ['Satoshi-Medium'],
-      'secret-regular': ['Satoshi-Regular']
+      'bother-bold': ['Satoshi-Bold'],
+      'bother-medium': ['Satoshi-Medium'],
+      'bother-regular': ['Satoshi-Regular']
     }
   }
 }

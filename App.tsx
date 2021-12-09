@@ -1,5 +1,5 @@
 import 'react-native-url-polyfill/auto'
 
-import { Secret } from './src'
+import { Bother } from './src'
 
-export default Secret
+export default Bother

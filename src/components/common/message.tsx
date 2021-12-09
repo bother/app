@@ -34,7 +34,7 @@ export const Message: FunctionComponent<Props> = ({
       {icons[type]}
     </Svg>
 
-    <Text style={tw`flex-1 ml-2 text-base text-white font-secret-medium`}>
+    <Text style={tw`flex-1 ml-2 text-base text-white font-bother-medium`}>
       {message}
     </Text>
   </View>

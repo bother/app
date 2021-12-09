@@ -15,7 +15,7 @@ type Props = BottomTabScreenProps<MainParamList, 'Profile'>
 
 export const Profile: FunctionComponent<Props> = () => (
   <ScrollView
-    contentContainerStyle={tw`items-center justify-center flex-grow`}
+    contentContainerStyle={tw`items-center justify-center flex-grow p-8`}
     style={tw`flex-1`}>
     {['error', 'message', 'success', 'warning'].map((type, index) => (
       <Message

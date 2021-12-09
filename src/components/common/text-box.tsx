@@ -27,7 +27,7 @@ export const TextBox = forwardRef<TextInput, Props>(
       placeholderTextColor={tw.color('gray-400')}
       ref={ref}
       style={[
-        tw`p-3 text-base leading-tight text-black bg-gray-100 rounded-lg font-secret-regular`,
+        tw`p-3 text-base leading-tight text-black bg-gray-100 rounded-lg font-bother-regular`,
         style
       ]}
       textAlignVertical={multiline ? 'top' : 'center'}

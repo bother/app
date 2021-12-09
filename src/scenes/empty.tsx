@@ -10,12 +10,12 @@ type Props = BottomTabScreenProps<MainParamList, 'Profile'>
 export const Empty: FunctionComponent<Props> = () => (
   <View style={tw`items-center justify-center flex-1`}>
     <Image
-      source={require('../../assets/img/secret.png')}
+      source={require('../../assets/img/bother.png')}
       style={tw`w-32 h-32`}
     />
-    <Text style={tw`mt-8 text-4xl text-black font-secret-bold`}>Secret</Text>
-    <Text style={tw`text-lg text-gray-600 font-secret-medium`}>
-      Share your secrets, anonymously
+    <Text style={tw`mt-8 text-4xl text-black font-bother-bold`}>Bother</Text>
+    <Text style={tw`text-lg text-gray-600 font-bother-medium`}>
+      What bothers you?
     </Text>
   </View>
 )

@@ -12,7 +12,7 @@ import { FONTS } from './lib'
 import { MainNavigator } from './navigators'
 import { navTheme, tw } from './styles'
 
-export const Secret: FunctionComponent = () => {
+export const Bother: FunctionComponent = () => {
   const [loaded] = useFonts(FONTS)
 
   const { loading } = useAuth()
