@@ -1,9 +1,7 @@
-import orderBy from 'lodash/orderBy'
-import sumBy from 'lodash/sumBy'
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '../../lib'
-import { Coordinates, Post, SupabasePost } from '../../types'
+import { Coordinates, FeedPost, Post } from '../../types'
 
 type Type = 'popular' | 'nearby' | 'latest'
 
@@ -27,27 +25,14 @@ export const usePosts = (type: Type, coordinates?: Coordinates): Returns => {
       setLoading(true)
       setError(undefined)
 
-      let query = supabase.from<SupabasePost>('posts').select(`
-        *,
-        votes(
-          vote
-        ),
-        comments(
-          id
-        )
-      `)
-
-      if (type === 'latest') {
-        query = query.order('createdAt', {
-          ascending: false
-        })
-      }
-
-      if (type === 'nearby' && !coordinates) {
-        throw new Error('No location provided')
-      }
-
-      const { data, error } = await query
+      const { data, error } = await supabase.rpc<FeedPost>(
+        type === 'latest'
+          ? 'feed_latest'
+          : type === 'nearby'
+          ? 'feed_nearby'
+          : 'feed_popular',
+        type === 'nearby' ? coordinates : undefined
+      )
 
       if (error) {
         throw new Error(error.message)
@@ -57,15 +42,29 @@ export const usePosts = (type: Type, coordinates?: Coordinates): Returns => {
         throw new Error('Something went wrong')
       }
 
-      let posts = data.map((post) => ({
-        ...post,
-        comments: post.comments.length,
-        votes: sumBy(post.votes, 'vote')
-      }))
-
-      if (type === 'popular') {
-        posts = orderBy(posts, 'createdAt')
-      }
+      const posts: Array<Post> = data.map(
+        ({
+          body,
+          comments,
+          created_at,
+          id,
+          latitude,
+          longitude,
+          user_id,
+          votes
+        }) => ({
+          body,
+          comments,
+          coordinates: {
+            latitude,
+            longitude
+          },
+          createdAt: created_at,
+          id,
+          userId: user_id,
+          votes
+        })
+      )
 
       setPosts(posts)
     } catch (error) {

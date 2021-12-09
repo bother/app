@@ -1,9 +1,12 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import * as SecureStore from 'expo-secure-store'
 import React, { FunctionComponent } from 'react'
-import { ScrollView, View } from 'react-native'
+import { Alert, ScrollView, View } from 'react-native'
 
-import { Icon, Message } from '../components'
+import { Button, Icon, Message } from '../components'
 import { icons } from '../components/common/icon'
+import { supabase } from '../lib'
 import { MainParamList } from '../navigators'
 import { tw } from '../styles'
 import { IconName, MessageType } from '../types'
@@ -32,5 +35,17 @@ export const Profile: FunctionComponent<Props> = () => (
         />
       ))}
     </View>
+
+    <Button
+      onPress={async () => {
+        await supabase.auth.signOut()
+        await SecureStore.deleteItemAsync('id')
+        await AsyncStorage.removeItem('supabase.auth.token')
+
+        Alert.alert('Success', 'Reload the app')
+      }}
+      style={tw`mt-8`}
+      title="Sign out"
+    />
   </ScrollView>
 )

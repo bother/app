@@ -26,9 +26,15 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
               return
             }
 
-            await createPost(body)
+            // TODO: use real location
+            const success = await createPost(body, {
+              latitude: 25.1230021,
+              longitude: 55.1927943
+            })
 
-            setBody('')
+            if (success) {
+              setBody('')
+            }
           }}
         />
       )

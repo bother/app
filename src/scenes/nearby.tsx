@@ -18,7 +18,7 @@ export const Nearby: FunctionComponent<Props> = () => {
       ListEmptyComponent={
         error ? <Oops label="Reload" message={error} onPress={reload} /> : null
       }
-      contentContainerStyle={tw`flex-grow `}
+      contentContainerStyle={tw`flex-grow`}
       data={posts}
       renderItem={({ item }) => <PostCard post={item} />}
     />

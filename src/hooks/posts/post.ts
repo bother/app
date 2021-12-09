@@ -1,8 +1,7 @@
-import sumBy from 'lodash/sumBy'
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '../../lib'
-import { Post, SupabasePost } from '../../types'
+import { FeedPost, Post } from '../../types'
 
 type Returns = {
   error?: string
@@ -24,17 +23,9 @@ export const usePost = (id: number): Returns => {
       setError(undefined)
 
       const { data, error } = await supabase
-        .from<SupabasePost>('posts')
-        .select(
-          `*,
-          votes(
-            vote
-          ),
-          comments(
-            id
-          )`
-        )
-        .eq('id', id)
+        .rpc<FeedPost>('fetch_post', {
+          _id: id
+        })
         .single()
 
       if (error) {
@@ -45,10 +36,19 @@ export const usePost = (id: number): Returns => {
         throw new Error('Something went wrong')
       }
 
+      console.log('data', data)
+
       const post: Post = {
-        ...data,
-        comments: data.comments.length,
-        votes: sumBy(data.votes, 'vote')
+        body: data.body,
+        comments: data.comments,
+        coordinates: {
+          latitude: data.latitude,
+          longitude: data.longitude
+        },
+        createdAt: data.created_at,
+        id: data.id,
+        userId: data.user_id,
+        votes: data.votes
       }
 
       setPost(post)
