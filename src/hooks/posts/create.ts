@@ -5,13 +5,13 @@ import { useCallback, useState } from 'react'
 import { useUser } from '../../contexts'
 import { supabase } from '../../lib'
 import { PostsParamList } from '../../navigators'
-import { Coordinates, SupabasePost } from '../../types'
+import { Coordinates } from '../../types'
 
 type Returns = {
   loading: boolean
   error?: string
 
-  createPost: (body: string, coordinates?: Coordinates) => Promise<void>
+  createPost: (body: string, coordinates: Coordinates) => Promise<boolean>
 }
 
 export const useCreatePost = (): Returns => {
@@ -24,7 +24,7 @@ export const useCreatePost = (): Returns => {
   const [error, setError] = useState<string>()
 
   const createPost = useCallback(
-    async (body: string, coordinates?: Coordinates) => {
+    async (body: string, coordinates: Coordinates) => {
       try {
         setLoading(true)
         setError(undefined)
@@ -34,10 +34,10 @@ export const useCreatePost = (): Returns => {
         }
 
         const { data, error } = await supabase
-          .from<SupabasePost>('posts')
-          .insert({
+          .rpc<number>('create_post', {
+            ...coordinates,
             body,
-            userId: user?.id
+            user_id: user.id
           })
           .single()
 
@@ -50,10 +50,14 @@ export const useCreatePost = (): Returns => {
         }
 
         navigate('Post', {
-          id: data.id
+          id: data
         })
+
+        return true
       } catch (error) {
         setError(error.message)
+
+        return false
       } finally {
         setLoading(false)
       }

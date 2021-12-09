@@ -33,7 +33,8 @@ export const Message: FunctionComponent<Props> = ({
     <Svg fill={tw.color('white')} height={24} viewBox="0 0 24 24" width={24}>
       {icons[type]}
     </Svg>
-    <Text style={tw`ml-2 text-base text-white font-secret-medium`}>
+
+    <Text style={tw`flex-1 ml-2 text-base text-white font-secret-medium`}>
       {message}
     </Text>
   </View>
