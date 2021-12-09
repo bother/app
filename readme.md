@@ -1,4 +1,4 @@
-<img src="./assets/img/icon.png" height="100" width="100" />
+<img src="./assets/img/bother.png" height="100" width="100" />
 
 # Bother
 
