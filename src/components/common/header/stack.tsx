@@ -1,4 +1,4 @@
-import { NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { StackHeaderProps } from '@react-navigation/stack'
 import { StatusBar } from 'expo-status-bar'
 import React, { FunctionComponent } from 'react'
 import { Text, View } from 'react-native'
@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { tw } from '../../../styles'
 import { HeaderButton } from './button'
 
-export const StackHeader: FunctionComponent<NativeStackHeaderProps> = ({
+export const StackHeader: FunctionComponent<StackHeaderProps> = ({
   back,
   navigation,
   options,

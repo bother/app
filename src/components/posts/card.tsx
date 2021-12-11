@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
@@ -19,7 +19,7 @@ type Props = {
 }
 
 export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
-  const { navigate } = useNavigation<NativeStackNavigationProp<RootParamList>>()
+  const { navigate } = useNavigation<StackNavigationProp<RootParamList>>()
 
   const [{ coordinates }] = useLocation()
 

@@ -20,7 +20,7 @@ export const MainNavigator: FunctionComponent = () => (
       header: TabHeader,
       lazy: true
     }}
-    tabBar={BottomTabBar}>
+    tabBar={(props) => <BottomTabBar {...props} />}>
     <Screen
       component={FeedNavigator}
       name="Feed"

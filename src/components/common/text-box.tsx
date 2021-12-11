@@ -8,6 +8,7 @@ type Props = Pick<
   | 'autoCapitalize'
   | 'autoCorrect'
   | 'autoFocus'
+  | 'editable'
   | 'keyboardType'
   | 'multiline'
   | 'onChangeText'
