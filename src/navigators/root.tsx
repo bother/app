@@ -1,5 +1,6 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
+import { useWindowDimensions } from 'react-native'
 
 import { PostHeader } from '../components'
 import { Post } from '../scenes'
@@ -12,26 +13,33 @@ export type RootParamList = {
   }
 }
 
-const { Navigator, Screen } = createNativeStackNavigator<RootParamList>()
+const { Navigator, Screen } = createStackNavigator<RootParamList>()
 
-export const RootNavigator: FunctionComponent = () => (
-  <Navigator>
-    <Screen
-      component={MainNavigator}
-      name="Main"
-      options={{
-        headerShown: false
-      }}
-    />
+export const RootNavigator: FunctionComponent = () => {
+  const { width } = useWindowDimensions()
 
-    <Screen
-      component={Post}
-      name="Post"
-      options={({ route }) => ({
-        header: () => <PostHeader id={route.params.id} />,
-        presentation: 'modal',
-        title: 'Post'
-      })}
-    />
-  </Navigator>
-)
+  return (
+    <Navigator
+      screenOptions={{
+        gestureResponseDistance: width
+      }}>
+      <Screen
+        component={MainNavigator}
+        name="Main"
+        options={{
+          headerShown: false
+        }}
+      />
+
+      <Screen
+        component={Post}
+        name="Post"
+        options={({ route }) => ({
+          header: () => <PostHeader id={route.params.id} />,
+          presentation: 'modal',
+          title: 'Post'
+        })}
+      />
+    </Navigator>
+  )
+}

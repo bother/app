@@ -4,49 +4,58 @@ import { Pressable } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Circle, Path } from 'react-native-svg'
 
+import { useKeyboard } from '../../../hooks'
 import { tw } from '../../../styles'
 
 export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
   navigation,
   state
-}) => (
-  <SafeAreaView
-    edges={['bottom']}
-    style={tw`flex-row bg-white border-t border-gray-200`}>
-    {state.routes.map((route, index) => {
-      const isFocused = state.index === index
+}) => {
+  const keyboard = useKeyboard('will')
 
-      return (
-        <Pressable
-          key={route.key}
-          onPress={() => {
-            const event = navigation.emit({
-              canPreventDefault: true,
-              target: route.key,
-              type: 'tabPress'
-            })
+  if (keyboard) {
+    return null
+  }
 
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate({
-                merge: true,
-                name: route.name,
-                params: {}
+  return (
+    <SafeAreaView
+      edges={['bottom']}
+      style={tw`flex-row bg-white border-t border-gray-200`}>
+      {state.routes.map((route, index) => {
+        const isFocused = state.index === index
+
+        return (
+          <Pressable
+            key={route.key}
+            onPress={() => {
+              const event = navigation.emit({
+                canPreventDefault: true,
+                target: route.key,
+                type: 'tabPress'
               })
-            }
-          }}
-          style={tw`items-center flex-1 p-4`}>
-          <Svg
-            fill={tw.color(isFocused ? 'primary-600' : 'gray-400')}
-            height={24}
-            viewBox="0 0 24 24"
-            width={24}>
-            {icons[route.name]}
-          </Svg>
-        </Pressable>
-      )
-    })}
-  </SafeAreaView>
-)
+
+              if (!isFocused && !event.defaultPrevented) {
+                navigation.navigate({
+                  merge: true,
+                  name: route.name,
+                  params: {}
+                })
+              }
+            }}
+            style={tw`items-center flex-1 p-4`}>
+            <Svg
+              fill={tw.color(isFocused ? 'primary-600' : 'gray-400')}
+              height={24}
+              viewBox="0 0 24 24"
+              width={24}>
+              {icons[route.name]}
+            </Svg>
+          </Pressable>
+        )
+      })}
+    </SafeAreaView>
+  )
+}
 
 const icons: Record<string, ReactNode> = {
   Conversations: (

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/core'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { useCallback, useState } from 'react'
 
 import { useUser } from '../../contexts'
@@ -17,7 +17,7 @@ type Returns = {
 export const useCreatePost = (): Returns => {
   const { user } = useUser()
 
-  const { navigate } = useNavigation<NativeStackNavigationProp<RootParamList>>()
+  const { navigate } = useNavigation<StackNavigationProp<RootParamList>>()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()

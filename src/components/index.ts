@@ -19,3 +19,8 @@ export { TextBox } from './common/text-box'
 
 export { PostCard } from './posts/card'
 export { PostHeader } from './posts/header'
+
+// comments
+
+export { AddComment } from './comments/add'
+export { CommentCard } from './comments/card'

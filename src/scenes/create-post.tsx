@@ -3,7 +3,7 @@ import {
   BottomTabScreenProps
 } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 import { HeaderButton, Loading, Message, Oops, TextBox } from '../components'
 import { useCreatePost } from '../hooks'
@@ -72,7 +72,9 @@ const Main: FunctionComponent<MainProps> = ({ coordinates, navigation }) => {
   }, [body, coordinates, createPost, loading, navigation, tooLong, tooShort])
 
   return (
-    <View style={tw`flex-1 p-4`}>
+    <ScrollView
+      contentContainerStyle={tw`flex-1 p-4`}
+      keyboardShouldPersistTaps="handled">
       {!!error && <Message message={error} style={tw`mb-4`} type="error" />}
 
       <TextBox
@@ -92,14 +94,14 @@ Community rules:
 
       <View
         style={tw.style(
-          'p-3 items-center rounded-b-lg bg-emerald-600',
-          tooLong && 'bg-rose-600',
-          tooShort && 'bg-amber-600'
+          'p-3 items-center rounded-b-lg bg-emerald-200',
+          tooLong && 'bg-rose-200',
+          tooShort && 'bg-amber-200'
         )}>
-        <Text style={tw`text-sm leading-tight text-white font-bother-medium`}>
+        <Text style={tw`text-sm leading-tight text-black font-bother-medium`}>
           {body.length} / {POST_MAX_LENGTH}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   )
 }
