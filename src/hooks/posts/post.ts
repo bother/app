@@ -24,7 +24,7 @@ export const usePost = (id: number): Returns => {
 
       const { data, error } = await supabase
         .rpc<FeedPost>('fetch_post', {
-          _id: id
+          postid: id
         })
         .single()
 

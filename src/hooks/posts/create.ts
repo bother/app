@@ -36,7 +36,7 @@ export const useCreatePost = (): Returns => {
           .rpc<number>('create_post', {
             ...coordinates,
             body,
-            user_id: user.id
+            userid: user.id
           })
           .single()
 

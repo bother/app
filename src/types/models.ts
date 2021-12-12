@@ -25,3 +25,22 @@ export type Comment = {
   body: string
   createdAt: string
 }
+
+export type Conversation = {
+  id: number
+  targetType: 'comment' | 'post'
+  targetId: number
+  userId: string
+  recipientId: number
+  createdAt: string
+  updatedAt: string
+}
+
+export type Message = {
+  id: number
+  conversationId: number
+  userId: string
+  body: string
+  attachment?: unknown
+  createdAt: string
+}

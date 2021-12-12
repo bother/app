@@ -26,6 +26,25 @@ export type SupabaseComment = {
   created_at: string
 }
 
+export type SupabaseConversation = {
+  id: number
+  target_type: 'comment' | 'post'
+  target_id: number
+  user_id: string
+  recipient_id: number
+  created_at: string
+  updated_at: string
+}
+
+export type SupabaseMessage = {
+  id: number
+  conversation_id: number
+  user_id: string
+  body: string
+  attachment?: unknown
+  created_at: string
+}
+
 // functions
 
 export type FeedPost = {

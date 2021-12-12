@@ -1,18 +1,24 @@
 // auth
 
-export * from './auth'
+export { useAuth } from './auth'
 
 // posts
 
-export * from './posts/create'
-export * from './posts/post'
-export * from './posts/posts'
+export { useCreatePost } from './posts/create'
+export { usePost } from './posts/post'
+export { usePosts } from './posts/posts'
 
 // comments
 
-export * from './comments/comments'
-export * from './comments/create'
+export { useComments } from './comments/comments'
+export { useCreateComment } from './comments/create'
+
+// conversations
+
+export { useConversations } from './conversations/conversations'
+export { useCreateConversation } from './conversations/create'
+export { useMessages } from './conversations/messages'
 
 // utils
 
-export * from './keyboard'
+export { useKeyboard } from './utils/keyboard'

@@ -4,6 +4,7 @@ import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
 
+import { useCreateConversation } from '../../hooks'
 import { getKm } from '../../lib'
 import { RootParamList } from '../../navigators'
 import { useLocation } from '../../stores'
@@ -11,6 +12,7 @@ import { tw } from '../../styles'
 import { Post } from '../../types'
 import { Avatar } from '../common/avatar'
 import { Icon } from '../common/icon'
+import { Spinner } from '../common/spinner'
 
 type Props = {
   post: Post
@@ -20,6 +22,8 @@ type Props = {
 
 export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
   const { navigate } = useNavigation<StackNavigationProp<RootParamList>>()
+
+  const { createConversation, loading } = useCreateConversation('post', post)
 
   const [{ coordinates }] = useLocation()
 
@@ -35,11 +39,25 @@ export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
         })
       }}
       style={[tw`flex-row items-center p-4`, style]}>
-      <Avatar seed={post.id + post.userId} size={48} />
+      <Pressable disabled={loading} onPress={() => createConversation()}>
+        {loading ? (
+          <View style={tw`items-center justify-center w-12 h-12`}>
+            <Spinner />
+          </View>
+        ) : (
+          <Avatar seed={`${post.id}_${post.userId}`} size={48} />
+        )}
+      </Pressable>
 
       <View style={tw`flex-1 ml-4`}>
         <Text style={tw`text-base text-black font-bother-regular`}>
-          {post.body}
+          {post.id} {post.body}
+        </Text>
+
+        <Text
+          selectable
+          style={tw`mt-4 text-base text-black font-bother-regular`}>
+          {post.userId}
         </Text>
 
         <View style={tw`flex-row items-center mt-4`}>

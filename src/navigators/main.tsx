@@ -2,7 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
 import { BottomTabBar, TabHeader } from '../components'
-import { CreatePost, Empty, Profile } from '../scenes'
+import { CreatePost, Profile } from '../scenes'
+import { ConversationsNavigator } from './conversations'
 import { FeedNavigator } from './feed'
 
 export type MainParamList = {
@@ -36,9 +37,10 @@ export const MainNavigator: FunctionComponent = () => (
       }}
     />
     <Screen
-      component={Empty}
+      component={ConversationsNavigator}
       name="Conversations"
       options={{
+        headerShown: false,
         title: 'Conversations'
       }}
     />
