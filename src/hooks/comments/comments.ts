@@ -1,3 +1,4 @@
+import { parseISO } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '../../lib'
@@ -37,7 +38,7 @@ export const useComments = (postId: number): Returns => {
       const comments: Array<Comment> = data.map(
         ({ body, created_at, id, post_id, user_id }) => ({
           body,
-          createdAt: created_at,
+          createdAt: parseISO(created_at),
           id,
           postId: post_id,
           userId: user_id

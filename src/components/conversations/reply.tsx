@@ -1,33 +1,24 @@
 import React, { FunctionComponent, useState } from 'react'
 import { View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { useCreateComment, useKeyboard } from '../../hooks'
+import { useSendMessage } from '../../hooks'
 import { tw } from '../../styles'
-import { Post } from '../../types'
 import { Spinner } from '../common/spinner'
 import { TextBox } from '../common/text-box'
 
 type Props = {
-  post: Post
-
-  reload: () => void
+  conversationId: number
 }
 
-export const AddComment: FunctionComponent<Props> = ({ post, reload }) => {
-  const { bottom } = useSafeAreaInsets()
-
-  const keyboard = useKeyboard('will')
-
-  const { createComment, loading } = useCreateComment(post.id, reload)
+export const ChatReply: FunctionComponent<Props> = ({ conversationId }) => {
+  const { loading, sendMessage } = useSendMessage(conversationId)
 
   const [body, setBody] = useState('')
-
-  const padding = (keyboard ? 0 : bottom) + 12
 
   return (
     <View style={tw`flex-row items-start border-t border-gray-300`}>
       <TextBox
+        blurOnSubmit={false}
         editable={!loading}
         onChangeText={(body) => setBody(body)}
         onSubmitEditing={async () => {
@@ -35,13 +26,13 @@ export const AddComment: FunctionComponent<Props> = ({ post, reload }) => {
             return
           }
 
-          await createComment(body)
+          await sendMessage(body)
 
           setBody('')
         }}
         placeholder="Say something nice"
         returnKeyType="send"
-        style={tw`flex-1 rounded-none bg-[transparent] pb-[${padding}px]`}
+        style={tw`flex-1 rounded-none bg-[transparent]`}
         value={body}
       />
 

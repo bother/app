@@ -1,74 +1,112 @@
-import { useCallback, useEffect, useState } from 'react'
+import update from 'immutability-helper'
+import orderBy from 'lodash/orderBy'
+import { useEffect } from 'react'
+import { QueryKey, useQuery, useQueryClient } from 'react-query'
 
-import { supabase } from '../../lib'
-import { Conversation, SupabaseConversation } from '../../types'
+import { supabase, transformConversation, transformMessage } from '../../lib'
+import {
+  Conversation,
+  Message,
+  SupabaseConversationWithData,
+  SupabaseMessage
+} from '../../types'
 
 type Returns = {
   conversations?: Array<Conversation>
-  loading: boolean
   error?: string
+  loading: boolean
+  reloading: boolean
 
   reload: () => void
 }
 
 export const useConversations = (): Returns => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string>()
+  const client = useQueryClient()
 
-  const [conversations, setConversations] = useState<Array<Conversation>>()
-
-  const fetch = useCallback(async () => {
-    try {
-      setLoading(true)
-      setError(undefined)
-
-      const { data, error } = await supabase
-        .from<SupabaseConversation>('conversations')
-        .select()
-        .order('updated_at', {
-          ascending: false
-        })
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
-      const conversations: Array<Conversation> = data.map(
-        ({
-          created_at,
-          id,
-          recipient_id,
-          target_id,
-          target_type,
-          updated_at,
-          user_id
-        }) => ({
-          createdAt: created_at,
-          id,
-          recipientId: recipient_id,
-          targetId: target_id,
-          targetType: target_type,
-          updatedAt: updated_at,
-          userId: user_id
-        })
+  const { data, error, isLoading, isRefetching, refetch } = useQuery<
+    Array<Conversation>,
+    Error
+  >('conversations', async () => {
+    const { data, error } = await supabase
+      .from<SupabaseConversationWithData>('conversations')
+      .select(
+        '*, conversation_members!left(*, profile:profiles!left(*)), messages!left(*)'
       )
+      .order('updated_at', {
+        ascending: false
+      })
+      .order('created_at', {
+        ascending: false,
+        foreignTable: 'messages'
+      })
+      .limit(1, {
+        foreignTable: 'messages'
+      })
 
-      setConversations(conversations)
-    } catch (error) {
-      setError(error.message)
-    } finally {
-      setLoading(false)
+    if (error) {
+      throw new Error(error.message)
     }
-  }, [])
+
+    return data.map(transformConversation)
+  })
 
   useEffect(() => {
-    fetch()
-  }, [fetch])
+    const messages = supabase
+      .from<SupabaseMessage>('messages')
+      .on('INSERT', (data) => {
+        const conversationId = data.new.conversation_id
+
+        const key: QueryKey = ['messages', conversationId]
+
+        const messages = client.getQueryData<Array<Message>>(key)
+
+        if (messages) {
+          client.setQueryData<Array<Message>>(key, (messages) => [
+            transformMessage(data.new),
+            ...messages
+          ])
+        }
+
+        client.setQueryData<Array<Conversation>>(
+          'conversations',
+          (conversations) => {
+            const index = conversations.findIndex(
+              ({ id }) => id === conversationId
+            )
+
+            if (index < 0) {
+              return conversations
+            }
+
+            return orderBy(
+              update(conversations, {
+                [index]: {
+                  last: {
+                    $set: transformMessage(data.new)
+                  },
+                  updatedAt: {
+                    $set: new Date()
+                  }
+                }
+              }),
+              'updatedAt',
+              'desc'
+            )
+          }
+        )
+      })
+      .subscribe()
+
+    return () => {
+      messages.unsubscribe()
+    }
+  }, [client])
 
   return {
-    conversations,
-    error,
-    loading,
-    reload: fetch
+    conversations: data,
+    error: error?.message,
+    loading: isLoading,
+    reload: refetch,
+    reloading: isRefetching
   }
 }

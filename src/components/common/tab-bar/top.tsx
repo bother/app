@@ -12,7 +12,7 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
 }) => (
   <SafeAreaView edges={['top']} style={tw`flex-row bg-primary-600`}>
     {state.routes.map((route, index) => {
-      const isFocused = state.index === index
+      const focused = state.index === index
 
       const { options } = descriptors[route.key]
 
@@ -26,17 +26,17 @@ export const TopTabBar: FunctionComponent<MaterialTopTabBarProps> = ({
               type: 'tabPress'
             })
 
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate({
-                merge: true,
-                name: route.name,
-                params: {}
-              })
+            if (focused || event.defaultPrevented) {
+              return
             }
+
+            navigation.navigate({
+              name: route.name,
+              params: {}
+            })
           }}
           style={tw`items-center flex-1 p-3`}>
-          <View
-            style={tw.style('p-2 rounded-lg', isFocused && 'bg-primary-800')}>
+          <View style={tw.style('p-2 rounded-lg', focused && 'bg-primary-800')}>
             <Text style={tw`text-sm leading-tight text-white font-bother-bold`}>
               {options.title ?? route.name}
             </Text>

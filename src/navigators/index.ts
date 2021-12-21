@@ -13,7 +13,7 @@ export { MainNavigator } from './main'
 export type { FeedParamList } from './feed'
 export { FeedNavigator } from './feed'
 
-// conversations
+// chat
 
-export type { ConversationsParamList } from './conversations'
-export { ConversationsNavigator } from './conversations'
+export type { ChatParamList } from './chat'
+export { ChatNavigator } from './chat'

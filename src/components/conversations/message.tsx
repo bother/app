@@ -1,8 +1,8 @@
-import { format, parseISO } from 'date-fns'
+import { format } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Text, View } from 'react-native'
 
-import { useUser } from '../../contexts'
+import { useAuth } from '../../contexts'
 import { tw } from '../../styles'
 import { Message } from '../../types'
 
@@ -11,32 +11,28 @@ type Props = {
 }
 
 export const MessageCard: FunctionComponent<Props> = ({ message }) => {
-  const { user } = useUser()
+  const { user } = useAuth()
 
-  const isMine = message.userId === user.id
+  const mine = message.userId === user.id
 
   return (
     <View
       style={tw.style(
         'm-3 items-center',
-        isMine ? 'flex-row-reverse' : 'flex-row'
+        mine ? 'flex-row-reverse' : 'flex-row'
       )}>
       <View
         style={tw.style(
-          'max-w-[80%] flex-row p-3 rounded-3xl self-start',
-          isMine ? 'bg-primary-600' : 'bg-gray-200'
+          'max-w-[80%] px-3 py-2 rounded-t-xl',
+          mine ? 'bg-primary-200 rounded-bl-xl' : 'bg-gray-200 rounded-br-xl'
         )}>
-        <Text
-          style={tw.style(
-            'text-base font-bother-regular',
-            isMine ? 'text-white' : 'text-black'
-          )}>
+        <Text selectable style={tw`text-base text-black font-bother-regular`}>
           {message.body}
         </Text>
       </View>
 
-      <Text style={tw`mx-2 text-sm text-gray-400 font-bother-regular`}>
-        {format(parseISO(message.createdAt), 'hh:ss')}
+      <Text style={tw`mx-2 text-xs text-gray-400 font-bother-mono`}>
+        {format(message.createdAt, 'HH:ss')}
       </Text>
     </View>
   )

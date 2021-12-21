@@ -33,15 +33,15 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
     )
   }
 
-  return <Main coordinates={coordinates} navigation={navigation} />
+  return <Form coordinates={coordinates} navigation={navigation} />
 }
 
-type MainProps = {
+type FormProps = {
   coordinates: Coordinates
   navigation: BottomTabNavigationProp<MainParamList, 'CreatePost'>
 }
 
-const Main: FunctionComponent<MainProps> = ({ coordinates, navigation }) => {
+const Form: FunctionComponent<FormProps> = ({ coordinates, navigation }) => {
   const { createPost, error, loading } = useCreatePost()
 
   const [body, setBody] = useState('')

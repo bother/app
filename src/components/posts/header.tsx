@@ -13,12 +13,15 @@ type Props = {
 }
 
 export const PostHeader: FunctionComponent<Props> = ({ id }) => {
-  const { goBack } = useNavigation()
+  const navigation = useNavigation()
 
   return (
     <View style={tw`flex-row bg-primary-600`}>
-      <PostHeaderButton icon="close" onPress={goBack} style={tw`mr-auto`} />
-
+      <PostHeaderButton
+        icon="close"
+        onPress={navigation.goBack}
+        style={tw`mr-auto`}
+      />
       <PostHeaderButton
         icon="flag"
         onPress={() =>

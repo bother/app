@@ -5,20 +5,21 @@ import { useWindowDimensions } from 'react-native'
 import { StackHeader } from '../components'
 import { Conversation, Conversations } from '../scenes'
 
-export type ConversationsParamList = {
+export type ChatParamList = {
   Conversations: undefined
   Conversation: {
     id: number
   }
 }
 
-const { Navigator, Screen } = createStackNavigator<ConversationsParamList>()
+const { Navigator, Screen } = createStackNavigator<ChatParamList>()
 
-export const ConversationsNavigator: FunctionComponent = () => {
+export const ChatNavigator: FunctionComponent = () => {
   const { width } = useWindowDimensions()
 
   return (
     <Navigator
+      initialRouteName="Conversations"
       screenOptions={{
         gestureResponseDistance: width,
         header: StackHeader

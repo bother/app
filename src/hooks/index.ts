@@ -16,8 +16,9 @@ export { useCreateComment } from './comments/create'
 // conversations
 
 export { useConversations } from './conversations/conversations'
-export { useCreateConversation } from './conversations/create'
 export { useMessages } from './conversations/messages'
+export { useSendMessage } from './conversations/send'
+export { useStartConversation } from './conversations/start'
 
 // utils
 

@@ -1,66 +1,42 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 
-import { supabase } from '../../lib'
+import { supabase, transformMessage } from '../../lib'
 import { Message, SupabaseMessage } from '../../types'
 
 type Returns = {
-  messages?: Array<Message>
-  loading: boolean
   error?: string
+  loading: boolean
+  messages?: Array<Message>
+  reloading: boolean
 
   reload: () => void
 }
 
 export const useMessages = (conversationId: number): Returns => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string>()
+  const { data, error, isLoading, isRefetching, refetch } = useQuery<
+    Array<Message>,
+    Error
+  >(['messages', conversationId], async () => {
+    const { data, error } = await supabase
+      .from<SupabaseMessage>('messages')
+      .select()
+      .eq('conversation_id', conversationId)
+      .order('created_at', {
+        ascending: false
+      })
 
-  const [messages, setMessages] = useState<Array<Message>>()
-
-  const fetch = useCallback(async () => {
-    try {
-      setLoading(true)
-      setError(undefined)
-
-      const { data, error } = await supabase
-        .from<SupabaseMessage>('messages')
-        .select()
-        .eq('conversation_id', conversationId)
-        .order('created_at', {
-          ascending: false
-        })
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
-      const messages: Array<Message> = data.map(
-        ({ attachment, body, conversation_id, created_at, id, user_id }) => ({
-          attachment,
-          body,
-          conversationId: conversation_id,
-          createdAt: created_at,
-          id,
-          userId: user_id
-        })
-      )
-
-      setMessages(messages)
-    } catch (error) {
-      setError(error.message)
-    } finally {
-      setLoading(false)
+    if (error) {
+      throw new Error(error.message)
     }
-  }, [conversationId])
 
-  useEffect(() => {
-    fetch()
-  }, [fetch])
+    return data.map(transformMessage)
+  })
 
   return {
-    error,
-    loading,
-    messages,
-    reload: fetch
+    error: error?.message,
+    loading: isLoading,
+    messages: data,
+    reload: refetch,
+    reloading: isRefetching
   }
 }

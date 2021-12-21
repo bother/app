@@ -1,4 +1,12 @@
 import { Coordinates } from './location'
+import { SupabaseProfileGender } from './supabase'
+
+export type Profile = {
+  id: string
+  age?: number
+  gender?: SupabaseProfileGender
+  createdAt: Date
+}
 
 export type Post = {
   id: number
@@ -7,15 +15,15 @@ export type Post = {
   votes: number
   comments: number
   coordinates: Coordinates
-  createdAt: string
+  createdAt: Date
 }
 
 export type Vote = {
   userId: string
   postId: string
-  vote: string
-  createdAt: string
-  updatedAt: string
+  vote: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type Comment = {
@@ -23,17 +31,25 @@ export type Comment = {
   userId: string
   postId: number
   body: string
-  createdAt: string
+  createdAt: Date
 }
 
 export type Conversation = {
   id: number
-  targetType: 'comment' | 'post'
-  targetId: number
+  postId: number
+  commentId?: number
+  last?: Message
+  members: Array<ConversationMember>
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type ConversationMember = {
+  id: number
   userId: string
-  recipientId: number
-  createdAt: string
-  updatedAt: string
+  profile: Profile
+  lastSeen?: Date
+  createdAt: Date
 }
 
 export type Message = {
@@ -42,5 +58,5 @@ export type Message = {
   userId: string
   body: string
   attachment?: unknown
-  createdAt: string
+  createdAt: Date
 }

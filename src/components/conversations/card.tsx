@@ -1,11 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { formatDistanceToNowStrict, parseISO } from 'date-fns'
+import { formatDistanceToNow, isBefore } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, Text, View } from 'react-native'
 
-import { useUser } from '../../contexts'
-import { ConversationsParamList } from '../../navigators'
+import { useAuth } from '../../contexts'
+import { ChatParamList } from '../../navigators'
 import { tw } from '../../styles'
 import { Conversation } from '../../types'
 import { Avatar } from '../common/avatar'
@@ -17,35 +17,41 @@ type Props = {
 export const ConversationCard: FunctionComponent<Props> = ({
   conversation
 }) => {
-  const { navigate } =
-    useNavigation<StackNavigationProp<ConversationsParamList>>()
+  const navigation = useNavigation<StackNavigationProp<ChatParamList>>()
 
-  const { user } = useUser()
+  const { user } = useAuth()
+
+  const unread = isBefore(
+    conversation.updatedAt,
+    conversation.members[0].userId === user.id
+      ? conversation.members[0].lastSeen
+      : conversation.members[1].lastSeen
+  )
 
   return (
     <Pressable
       onPress={() =>
-        navigate('Conversation', {
+        navigation.navigate('Conversation', {
           id: conversation.id
         })
       }
-      style={tw`flex-row items-center p-4`}>
-      <Avatar
-        seed={`${conversation.id}_${
-          conversation.userId === user.id
-            ? conversation.recipientId
-            : conversation.userId
-        }`}
-        size={48}
-      />
+      style={tw.style('flex-row items-center p-4', unread && 'bg-gray-100')}>
+      <Avatar size={48} source={conversation} />
 
       <View style={tw`flex-1 ml-4`}>
-        <Text style={tw`text-base text-black font-bother-regular`}>
-          Last message
+        <Text
+          numberOfLines={1}
+          style={tw.style(
+            'text-base font-bother-regular',
+            conversation.last ? 'text-black' : 'text-gray-600'
+          )}>
+          {conversation.last?.body ?? 'Start your conversation'}
         </Text>
 
-        <Text style={tw`mt-2 text-sm text-gray-600 font-bother-regular`}>
-          {formatDistanceToNowStrict(parseISO(conversation.updatedAt))}
+        <Text style={tw`mt-1 text-sm text-gray-400 font-bother-regular`}>
+          {formatDistanceToNow(conversation.updatedAt, {
+            addSuffix: true
+          })}
         </Text>
       </View>
     </Pressable>

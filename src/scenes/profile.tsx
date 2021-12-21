@@ -4,9 +4,9 @@ import * as SecureStore from 'expo-secure-store'
 import React, { FunctionComponent } from 'react'
 import { Alert, ScrollView, Text, View } from 'react-native'
 
-import { Button, Icon, Message } from '../components'
+import { Button, Icon, Logo, Message } from '../components'
 import { icons } from '../components/common/icon'
-import { useUser } from '../contexts'
+import { useAuth } from '../contexts'
 import { supabase } from '../lib'
 import { MainParamList } from '../navigators'
 import { tw } from '../styles'
@@ -15,43 +15,46 @@ import { IconName, MessageType } from '../types'
 type Props = BottomTabScreenProps<MainParamList, 'Profile'>
 
 export const Profile: FunctionComponent<Props> = () => {
-  const { user } = useUser()
-
-  supabase
-    .rpc('start_conversation', {
-      recipientid: '3601493e-d7fd-484d-93cd-956ed13a7aff',
-      targetid: 1003,
-      targettype: 'post',
-      userid: user.id
-    })
-    .then((foo) => console.log(foo))
+  const { session, user } = useAuth()
 
   return (
     <ScrollView
       contentContainerStyle={tw`items-center justify-center flex-grow p-8`}
       style={tw`flex-1`}>
-      {['error', 'message', 'success', 'warning'].map((type, index) => (
-        <Message
-          key={type}
-          message={type}
-          style={tw.style(index > 0 && 'mt-4')}
-          type={type as MessageType}
-        />
-      ))}
+      <Logo />
 
-      <View style={tw`flex-row mt-8`}>
-        {Object.keys(icons).map((name, index) => (
-          <Icon
-            key={name}
-            name={name as IconName}
-            style={tw.style(index > 0 && 'ml-4')}
+      <View style={tw`w-full mt-8`}>
+        {['error', 'message', 'success', 'warning'].map((type, index) => (
+          <Message
+            key={type}
+            message={type}
+            style={tw.style(index > 0 && 'mt-4')}
+            type={type as MessageType}
           />
         ))}
       </View>
 
-      <Text selectable style={tw`my-8 text-base text-black font-bother-medium`}>
-        {user.id}
-      </Text>
+      <View style={tw`flex-row flex-wrap mt-4 -mx-4 -mb-4`}>
+        {Object.keys(icons).map((name) => (
+          <Icon key={name} name={name as IconName} style={tw`m-4`} />
+        ))}
+      </View>
+
+      {user && (
+        <Text
+          selectable
+          style={tw`my-8 text-base text-black font-bother-medium`}>
+          {user.id}
+        </Text>
+      )}
+
+      {session && (
+        <Text
+          selectable
+          style={tw`my-8 text-base text-black font-bother-medium`}>
+          {session.access_token}
+        </Text>
+      )}
 
       <Button
         onPress={async () => {
