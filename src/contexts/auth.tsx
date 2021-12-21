@@ -10,7 +10,7 @@ import React, {
 
 import { supabase } from '../lib'
 
-export const UserContext = createContext<{
+export const AuthContext = createContext<{
   user: User | null
   session: Session | null
 }>({
@@ -18,7 +18,7 @@ export const UserContext = createContext<{
   user: null
 })
 
-export const UserContextProvider: FunctionComponent = (props) => {
+export const AuthContextProvider: FunctionComponent = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null)
   const [user, setUser] = useState<User | null>(null)
 
@@ -26,12 +26,12 @@ export const UserContextProvider: FunctionComponent = (props) => {
     const session = supabase.auth.session()
 
     setSession(session)
-    setUser(session?.user ?? null)
+    setUser(session?.user)
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session)
-        setUser(session?.user ?? null)
+        setUser(session?.user)
       }
     )
 
@@ -41,21 +41,21 @@ export const UserContextProvider: FunctionComponent = (props) => {
   }, [])
 
   return (
-    <UserContext.Provider
-      {...props}
+    <AuthContext.Provider
       value={{
         session,
         user
-      }}
-    />
+      }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
 
-export const useUser = (): ContextType<typeof UserContext> => {
-  const context = useContext(UserContext)
+export const useAuth = (): ContextType<typeof AuthContext> => {
+  const context = useContext(AuthContext)
 
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserContextProvider')
+    throw new Error('useAuth must be used within a AuthContextProvider')
   }
 
   return context

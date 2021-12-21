@@ -1,7 +1,8 @@
+import { parseISO } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '../../lib'
-import { FeedPost, Post } from '../../types'
+import { Post, SupabaseFeedPost } from '../../types'
 
 type Returns = {
   error?: string
@@ -23,8 +24,8 @@ export const usePost = (id: number): Returns => {
       setError(undefined)
 
       const { data, error } = await supabase
-        .rpc<FeedPost>('fetch_post', {
-          _id: id
+        .rpc<SupabaseFeedPost>('fetch_post', {
+          postId: id
         })
         .single()
 
@@ -43,7 +44,7 @@ export const usePost = (id: number): Returns => {
           latitude: data.latitude,
           longitude: data.longitude
         },
-        createdAt: data.created_at,
+        createdAt: parseISO(data.created_at),
         id: data.id,
         userId: data.user_id,
         votes: data.votes

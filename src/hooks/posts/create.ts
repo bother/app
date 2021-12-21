@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { useCallback, useState } from 'react'
 
-import { useUser } from '../../contexts'
+import { useAuth } from '../../contexts'
 import { supabase } from '../../lib'
 import { RootParamList } from '../../navigators'
 import { Coordinates } from '../../types'
@@ -15,7 +15,7 @@ type Returns = {
 }
 
 export const useCreatePost = (): Returns => {
-  const { user } = useUser()
+  const { user } = useAuth()
 
   const { navigate } = useNavigation<StackNavigationProp<RootParamList>>()
 
@@ -35,8 +35,7 @@ export const useCreatePost = (): Returns => {
         const { data, error } = await supabase
           .rpc<number>('create_post', {
             ...coordinates,
-            body,
-            user_id: user.id
+            body
           })
           .single()
 

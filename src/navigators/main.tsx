@@ -2,11 +2,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { FunctionComponent } from 'react'
 
 import { BottomTabBar, TabHeader } from '../components'
-import { CreatePost, Empty, Profile } from '../scenes'
+import { CreatePost, Profile } from '../scenes'
+import { ChatNavigator } from './chat'
 import { FeedNavigator } from './feed'
 
 export type MainParamList = {
-  Conversations: undefined
+  Chat: undefined
   CreatePost: undefined
   Feed: undefined
   Profile: undefined
@@ -16,6 +17,7 @@ const { Navigator, Screen } = createBottomTabNavigator<MainParamList>()
 
 export const MainNavigator: FunctionComponent = () => (
   <Navigator
+    initialRouteName="Feed"
     screenOptions={{
       header: TabHeader,
       lazy: true
@@ -36,9 +38,11 @@ export const MainNavigator: FunctionComponent = () => (
       }}
     />
     <Screen
-      component={Empty}
-      name="Conversations"
+      component={ChatNavigator}
+      name="Chat"
       options={{
+        headerShown: false,
+        lazy: false,
         title: 'Conversations'
       }}
     />

@@ -12,3 +12,8 @@ export { MainNavigator } from './main'
 
 export type { FeedParamList } from './feed'
 export { FeedNavigator } from './feed'
+
+// chat
+
+export type { ChatParamList } from './chat'
+export { ChatNavigator } from './chat'

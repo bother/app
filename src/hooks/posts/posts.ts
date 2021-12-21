@@ -1,7 +1,8 @@
+import { parseISO } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 
 import { supabase } from '../../lib'
-import { Coordinates, FeedPost, Post } from '../../types'
+import { Coordinates, Post, SupabaseFeedPost } from '../../types'
 
 type Type = 'popular' | 'nearby' | 'latest'
 
@@ -25,7 +26,7 @@ export const usePosts = (type: Type, coordinates?: Coordinates): Returns => {
       setLoading(true)
       setError(undefined)
 
-      const { data, error } = await supabase.rpc<FeedPost>(
+      const { data, error } = await supabase.rpc<SupabaseFeedPost>(
         type === 'latest'
           ? 'feed_latest'
           : type === 'nearby'
@@ -59,7 +60,7 @@ export const usePosts = (type: Type, coordinates?: Coordinates): Returns => {
             latitude,
             longitude
           },
-          createdAt: created_at,
+          createdAt: parseISO(created_at),
           id,
           userId: user_id,
           votes

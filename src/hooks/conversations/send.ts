@@ -3,23 +3,20 @@ import { Alert } from 'react-native'
 
 import { useAuth } from '../../contexts'
 import { supabase } from '../../lib'
-import { SupabaseComment } from '../../types'
+import { SupabaseMessage } from '../../types'
 
 type Returns = {
   loading: boolean
 
-  createComment: (body: string) => Promise<void>
+  sendMessage: (body: string) => Promise<void>
 }
 
-export const useCreateComment = (
-  postId: number,
-  reload: () => void
-): Returns => {
+export const useSendMessage = (conversationId: number): Returns => {
   const { user } = useAuth()
 
   const [loading, setLoading] = useState(false)
 
-  const createComment = useCallback(
+  const sendMessage = useCallback(
     async (body: string) => {
       try {
         setLoading(true)
@@ -29,29 +26,27 @@ export const useCreateComment = (
         }
 
         const { error } = await supabase
-          .from<SupabaseComment>('comments')
+          .from<SupabaseMessage>('messages')
           .insert({
             body,
-            post_id: postId,
+            conversation_id: conversationId,
             user_id: user.id
           })
 
         if (error) {
           throw new Error(error.message)
         }
-
-        reload()
       } catch (error) {
         Alert.alert('Error', error.message)
       } finally {
         setLoading(false)
       }
     },
-    [postId, reload, user]
+    [conversationId, user]
   )
 
   return {
-    createComment,
-    loading
+    loading,
+    sendMessage
   }
 }

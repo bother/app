@@ -29,14 +29,14 @@ export const Nearby: FunctionComponent<Props> = () => {
     )
   }
 
-  return <Main coordinates={coordinates} />
+  return <List coordinates={coordinates} />
 }
 
-type MainProps = {
+type ListProps = {
   coordinates: Coordinates
 }
 
-const Main: FunctionComponent<MainProps> = ({ coordinates }) => {
+const List: FunctionComponent<ListProps> = ({ coordinates }) => {
   const { error, posts, reload } = usePosts('nearby', coordinates)
 
   return (

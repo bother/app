@@ -22,7 +22,7 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
       edges={['bottom']}
       style={tw`flex-row bg-white border-t border-gray-200`}>
       {state.routes.map((route, index) => {
-        const isFocused = state.index === index
+        const focused = state.index === index
 
         return (
           <Pressable
@@ -34,17 +34,18 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
                 type: 'tabPress'
               })
 
-              if (!isFocused && !event.defaultPrevented) {
-                navigation.navigate({
-                  merge: true,
-                  name: route.name,
-                  params: {}
-                })
+              if (focused || event.defaultPrevented) {
+                return
               }
+
+              navigation.navigate({
+                name: route.name,
+                params: {}
+              })
             }}
             style={tw`items-center flex-1 p-4`}>
             <Svg
-              fill={tw.color(isFocused ? 'primary-600' : 'gray-400')}
+              fill={tw.color(focused ? 'primary-600' : 'gray-400')}
               height={24}
               viewBox="0 0 24 24"
               width={24}>
@@ -58,7 +59,7 @@ export const BottomTabBar: FunctionComponent<BottomTabBarProps> = ({
 }
 
 const icons: Record<string, ReactNode> = {
-  Conversations: (
+  Chat: (
     <>
       <Path
         d="M16,2H5C3.343,2,2,3.343,2,5v9c0,1.622,1.29,2.936,2.9,2.99l0.756,2.32c0.234,0.718,1.148,0.927,1.672,0.383L9.916,17H16 c1.657,0,3-1.343,3-3V5C19,3.343,17.657,2,16,2z"
