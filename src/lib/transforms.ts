@@ -8,12 +8,26 @@ import {
   ConversationMember,
   Message,
   Post,
+  Profile,
   SupabaseComment,
   SupabaseConversationMemberWithProfile,
   SupabaseConversationWithData,
   SupabaseFeedPost,
-  SupabaseMessage
+  SupabaseMessage,
+  SupabaseProfile
 } from '../types'
+
+export const transformProfile = ({
+  age,
+  created_at,
+  gender,
+  id
+}: SupabaseProfile): Profile => ({
+  age,
+  createdAt: parseISO(created_at),
+  gender,
+  id
+})
 
 export const transformPost = ({
   body,

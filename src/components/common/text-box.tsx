@@ -11,6 +11,7 @@ type Props = Pick<
   | 'blurOnSubmit'
   | 'editable'
   | 'keyboardType'
+  | 'maxLength'
   | 'multiline'
   | 'onChangeText'
   | 'onSubmitEditing'

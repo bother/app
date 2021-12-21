@@ -36,8 +36,8 @@ export const useSendMessage = (conversationId: number): Returns => {
       return transformMessage(data)
     },
     {
-      onError(error) {
-        Alert.alert('Error', error.message)
+      onError({ message }) {
+        Alert.alert('Error', message)
       }
     }
   )

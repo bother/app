@@ -3,7 +3,7 @@ import { CommonActions, useNavigation } from '@react-navigation/native'
 import { Alert } from 'react-native'
 import { useMutation } from 'react-query'
 
-import { isComment, isConversation, supabase } from '../../lib'
+import { isComment, isConversation, isProfile, supabase } from '../../lib'
 import { MainParamList } from '../../navigators'
 import { AvatarSource } from '../../types'
 
@@ -18,7 +18,7 @@ export const useStartConversation = (source: AvatarSource): Returns => {
 
   const { isLoading, mutateAsync } = useMutation<number, Error>(
     async () => {
-      if (isConversation(source)) {
+      if (isConversation(source) || isProfile(source)) {
         throw new Error('Invalid input')
       }
 
@@ -39,8 +39,8 @@ export const useStartConversation = (source: AvatarSource): Returns => {
       return data
     },
     {
-      onError(error) {
-        Alert.alert('Error', error.message)
+      onError({ message }) {
+        Alert.alert('Error', message)
       },
       onSuccess(id) {
         const action = CommonActions.navigate('Chat', {
