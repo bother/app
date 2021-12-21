@@ -1,6 +1,8 @@
 // auth
 
+export { ProfileReturns, useProfile } from './auth/profile'
 export { useSignIn } from './auth/sign-in'
+export { useUpdateProfile } from './auth/update'
 
 // posts
 

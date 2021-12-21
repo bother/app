@@ -35,3 +35,8 @@ export { ChatHeader } from './conversations/header'
 export { MessageCard } from './conversations/message'
 export { ChatReply } from './conversations/reply'
 export { ChatSectionHeader } from './conversations/section'
+
+// profile
+
+export { ProfileCard } from './profile/card'
+export { ProfileEdit } from './profile/edit'

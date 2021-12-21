@@ -4,7 +4,7 @@ import Boring from 'react-native-boring-avatars'
 
 import { useAuth } from '../../contexts'
 import { useStartConversation } from '../../hooks'
-import { isConversation, isPost } from '../../lib'
+import { isConversation, isPost, isProfile } from '../../lib'
 import { tw } from '../../styles'
 import { AvatarSource } from '../../types'
 import { Spinner } from './spinner'
@@ -24,11 +24,14 @@ export const Avatar: FunctionComponent<Props> = ({
   const { loading, startConversation } = useStartConversation(source)
 
   const sourceIsConversation = isConversation(source)
+  const sourceIsProfile = isProfile(source)
 
   const userId = sourceIsConversation
     ? user.id === source.members[0].userId
       ? source.members[1].userId
       : source.members[0].userId
+    : sourceIsProfile
+    ? source.id
     : source.userId
 
   const sourceId = sourceIsConversation
@@ -39,6 +42,8 @@ export const Avatar: FunctionComponent<Props> = ({
     ? source.commentId
       ? 'comment'
       : 'post'
+    : sourceIsProfile
+    ? 'profile'
     : isPost(source)
     ? 'post'
     : 'comment'
@@ -49,7 +54,7 @@ export const Avatar: FunctionComponent<Props> = ({
     <Pressable
       disabled={loading}
       onPress={() => {
-        if (me || sourceIsConversation || loading) {
+        if (me || sourceIsProfile || sourceIsConversation || loading) {
           return
         }
 
@@ -83,7 +88,7 @@ export const Avatar: FunctionComponent<Props> = ({
               'violet',
               'yellow'
             ].map((name) => tw.color(`${name}-600`))}
-            name={`${userId}_${sourceId}_${suffix}`}
+            name={sourceIsProfile ? userId : `${userId}_${sourceId}_${suffix}`}
             size={size}
             square
             variant="beam"
@@ -91,9 +96,9 @@ export const Avatar: FunctionComponent<Props> = ({
         </View>
       )}
 
-      {me && (
+      {me && !sourceIsProfile && (
         <View
-          style={tw`absolute bottom-0 right-0 w-3 h-3 border rounded-full border-primary-400 bg-primary-600`}
+          style={tw`absolute bottom-0 right-0 w-3 h-3 border rounded-full border-sky-400 bg-sky-600`}
         />
       )}
     </Pressable>

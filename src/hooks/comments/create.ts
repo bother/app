@@ -38,8 +38,8 @@ export const useCreateComment = (postId: number): Returns => {
       return transformComment(data)
     },
     {
-      onError(error) {
-        Alert.alert('Error', error.message)
+      onError({ message }) {
+        Alert.alert('Error', message)
       },
       onSuccess(comment) {
         client.setQueryData<Array<Comment>>(

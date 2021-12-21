@@ -18,6 +18,7 @@ export const ChatReply: FunctionComponent<Props> = ({ conversationId }) => {
   return (
     <View style={tw`flex-row items-start border-t border-gray-300`}>
       <TextBox
+        autoFocus
         blurOnSubmit={false}
         editable={!loading}
         onChangeText={(body) => setBody(body)}

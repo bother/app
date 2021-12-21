@@ -1,9 +1,7 @@
 import { useQuery } from 'react-query'
 
 import { supabase, transformPost } from '../../lib'
-import { Coordinates, Post, SupabaseFeedPost } from '../../types'
-
-type Type = 'popular' | 'nearby' | 'latest'
+import { Coordinates, FeedType, Post, SupabaseFeedPost } from '../../types'
 
 export type PostsReturns = {
   error?: string
@@ -16,7 +14,7 @@ export type PostsReturns = {
 }
 
 export const usePosts = (
-  type: Type,
+  type: FeedType,
   coordinates?: Coordinates
 ): PostsReturns => {
   const { data, error, isLoading, isRefetching, refetch } = useQuery<
@@ -28,7 +26,9 @@ export const usePosts = (
         ? 'feed_latest'
         : type === 'nearby'
         ? 'feed_nearby'
-        : 'feed_popular',
+        : type === 'popular'
+        ? 'feed_popular'
+        : 'feed_user',
       type === 'nearby' ? coordinates : undefined
     )
 
