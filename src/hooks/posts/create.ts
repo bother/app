@@ -1,71 +1,57 @@
 import { useNavigation } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { useCallback, useState } from 'react'
+import { useMutation } from 'react-query'
 
-import { useAuth } from '../../contexts'
 import { supabase } from '../../lib'
 import { RootParamList } from '../../navigators'
 import { Coordinates } from '../../types'
+
+type Variables = {
+  body: string
+  coordinates: Coordinates
+}
 
 type Returns = {
   loading: boolean
   error?: string
 
-  createPost: (body: string, coordinates: Coordinates) => Promise<boolean>
+  createPost: (data: Variables) => Promise<number>
 }
 
 export const useCreatePost = (): Returns => {
-  const { user } = useAuth()
-
   const { navigate } = useNavigation<StackNavigationProp<RootParamList>>()
 
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string>()
-
-  const createPost = useCallback(
-    async (body: string, coordinates: Coordinates) => {
-      try {
-        setLoading(true)
-        setError(undefined)
-
-        if (!user) {
-          throw new Error('Not signed in')
-        }
-
-        const { data, error } = await supabase
-          .rpc<number>('create_post', {
-            ...coordinates,
-            body
-          })
-          .single()
-
-        if (error) {
-          throw new Error(error.message)
-        }
-
-        if (!data) {
-          throw new Error('Something went wrong')
-        }
-
-        navigate('Post', {
-          id: data
+  const { error, isLoading, mutateAsync } = useMutation<
+    number,
+    Error,
+    Variables
+  >(
+    async ({ body, coordinates }) => {
+      const { data, error } = await supabase
+        .rpc<number>('create_post', {
+          ...coordinates,
+          body
         })
+        .single()
 
-        return true
-      } catch (error) {
-        setError(error.message)
-
-        return false
-      } finally {
-        setLoading(false)
+      if (error) {
+        throw new Error(error.message)
       }
+
+      return data
     },
-    [navigate, user]
+    {
+      onSuccess(id) {
+        navigate('Post', {
+          id
+        })
+      }
+    }
   )
 
   return {
-    createPost,
-    error,
-    loading
+    createPost: mutateAsync,
+    error: error?.message,
+    loading: isLoading
   }
 }

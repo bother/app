@@ -8,6 +8,7 @@ import {
   Loading,
   Oops,
   PostCard,
+  Refresher,
   Separator
 } from '../components'
 import { useComments, usePost } from '../hooks'
@@ -22,18 +23,19 @@ export const Post: FunctionComponent<Props> = ({ route: { params } }) => {
 
   const error = postProps.error || commentsProps.error
   const loading = postProps.loading || commentsProps.loading
+  const reloading = postProps.reloading || commentsProps.reloading
 
   const reload = () => {
     postProps.reload()
     commentsProps.reload()
   }
 
-  if (!post || !comments) {
+  if (loading || !post || !comments) {
     return <Loading />
   }
 
   if (error) {
-    return <Oops label="Reload" message={error} onPress={reload} />
+    return <Oops label="Refresh" message={error} onPress={reload} />
   }
 
   return (
@@ -44,12 +46,12 @@ export const Post: FunctionComponent<Props> = ({ route: { params } }) => {
           <PostCard post={post} style={tw`border-b border-gray-200`} unlink />
         }
         data={comments}
-        refreshing={loading}
+        refreshControl={<Refresher onRefresh={reload} refreshing={reloading} />}
         renderItem={({ item }) => <CommentCard comment={item} />}
         style={tw`flex-grow bg-white`}
       />
 
-      <AddComment post={post} reload={commentsProps.reload} />
+      <AddComment post={post} />
     </>
   )
 }

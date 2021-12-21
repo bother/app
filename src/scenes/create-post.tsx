@@ -6,19 +6,18 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 
 import { HeaderButton, Loading, Message, Oops, TextBox } from '../components'
-import { useCreatePost } from '../hooks'
+import { useCreatePost, useLocation } from '../hooks'
 import { POST_MAX_LENGTH, POST_MIN_LENGTH } from '../lib'
 import { MainParamList } from '../navigators'
-import { useLocation } from '../stores'
 import { tw } from '../styles'
 import { Coordinates } from '../types'
 
 type Props = BottomTabScreenProps<MainParamList, 'CreatePost'>
 
 export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
-  const [{ coordinates, error, loading }, { fetch }] = useLocation()
+  const { coordinates, error, loading, refetch, reloading } = useLocation()
 
-  if (loading && !error) {
+  if (loading) {
     return <Loading />
   }
 
@@ -26,22 +25,22 @@ export const CreatePost: FunctionComponent<Props> = ({ navigation }) => {
     return (
       <Oops
         label="Try again"
-        loading={loading}
+        loading={reloading}
         message="We need access to your location to create a post."
-        onPress={fetch}
+        onPress={refetch}
       />
     )
   }
 
-  return <Form coordinates={coordinates} navigation={navigation} />
+  return <Main coordinates={coordinates} navigation={navigation} />
 }
 
-type FormProps = {
+type MainProps = {
   coordinates: Coordinates
   navigation: BottomTabNavigationProp<MainParamList, 'CreatePost'>
 }
 
-const Form: FunctionComponent<FormProps> = ({ coordinates, navigation }) => {
+const Main: FunctionComponent<MainProps> = ({ coordinates, navigation }) => {
   const { createPost, error, loading } = useCreatePost()
 
   const [body, setBody] = useState('')
@@ -56,13 +55,16 @@ const Form: FunctionComponent<FormProps> = ({ coordinates, navigation }) => {
           icon="send"
           loading={loading}
           onPress={async () => {
-            if (!body || tooShort || tooLong) {
+            if (!body || tooShort || tooLong || loading) {
               return
             }
 
-            const success = await createPost(body, coordinates)
+            const id = await createPost({
+              body,
+              coordinates
+            })
 
-            if (success) {
+            if (id !== undefined) {
               setBody('')
             }
           }}

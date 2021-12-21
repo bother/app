@@ -21,6 +21,7 @@ export { TextBox } from './common/text-box'
 
 export { PostCard } from './posts/card'
 export { PostHeader } from './posts/header'
+export { PostList } from './posts/list'
 
 // comments
 

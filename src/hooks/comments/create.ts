@@ -1,57 +1,57 @@
-import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { useAuth } from '../../contexts'
-import { supabase } from '../../lib'
-import { SupabaseComment } from '../../types'
+import { supabase, transformComment } from '../../lib'
+import { Comment, SupabaseComment } from '../../types'
+
+type Variables = {
+  body: string
+}
 
 type Returns = {
   loading: boolean
 
-  createComment: (body: string) => Promise<void>
+  createComment: (data: Variables) => Promise<Comment>
 }
 
-export const useCreateComment = (
-  postId: number,
-  reload: () => void
-): Returns => {
+export const useCreateComment = (postId: number): Returns => {
   const { user } = useAuth()
 
-  const [loading, setLoading] = useState(false)
+  const client = useQueryClient()
 
-  const createComment = useCallback(
-    async (body: string) => {
-      try {
-        setLoading(true)
+  const { isLoading, mutateAsync } = useMutation<Comment, Error, Variables>(
+    async ({ body }) => {
+      const { data, error } = await supabase
+        .from<SupabaseComment>('comments')
+        .insert({
+          body,
+          post_id: postId,
+          user_id: user.id
+        })
+        .single()
 
-        if (!user) {
-          throw new Error('Not signed in')
-        }
-
-        const { error } = await supabase
-          .from<SupabaseComment>('comments')
-          .insert({
-            body,
-            post_id: postId,
-            user_id: user.id
-          })
-
-        if (error) {
-          throw new Error(error.message)
-        }
-
-        reload()
-      } catch (error) {
-        Alert.alert('Error', error.message)
-      } finally {
-        setLoading(false)
+      if (error) {
+        throw new Error(error.message)
       }
+
+      return transformComment(data)
     },
-    [postId, reload, user]
+    {
+      onError(error) {
+        Alert.alert('Error', error.message)
+      },
+      onSuccess(comment) {
+        client.setQueryData<Array<Comment>>(
+          ['comments', postId],
+          (comments) => [comment, ...comments]
+        )
+      }
+    }
   )
 
   return {
-    createComment,
-    loading
+    createComment: mutateAsync,
+    loading: isLoading
   }
 }

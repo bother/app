@@ -1,71 +1,40 @@
-import { parseISO } from 'date-fns'
-import { useCallback, useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 
-import { supabase } from '../../lib'
+import { supabase, transformPost } from '../../lib'
 import { Post, SupabaseFeedPost } from '../../types'
 
 type Returns = {
   error?: string
   loading: boolean
   post?: Post
+  reloading: boolean
 
   reload: () => void
 }
 
 export const usePost = (id: number): Returns => {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string>()
+  const { data, error, isLoading, isRefetching, refetch } = useQuery<
+    Post,
+    Error
+  >(['post', id], async () => {
+    const { data, error } = await supabase
+      .rpc<SupabaseFeedPost>('fetch_post', {
+        postId: id
+      })
+      .single()
 
-  const [post, setPost] = useState<Post>()
-
-  const fetch = useCallback(async () => {
-    try {
-      setLoading(true)
-      setError(undefined)
-
-      const { data, error } = await supabase
-        .rpc<SupabaseFeedPost>('fetch_post', {
-          postId: id
-        })
-        .single()
-
-      if (error) {
-        throw new Error(error.message)
-      }
-
-      if (!data) {
-        throw new Error('Something went wrong')
-      }
-
-      const post: Post = {
-        body: data.body,
-        comments: data.comments,
-        coordinates: {
-          latitude: data.latitude,
-          longitude: data.longitude
-        },
-        createdAt: parseISO(data.created_at),
-        id: data.id,
-        userId: data.user_id,
-        votes: data.votes
-      }
-
-      setPost(post)
-    } catch (error) {
-      setError(error.message)
-    } finally {
-      setLoading(false)
+    if (error) {
+      throw new Error(error.message)
     }
-  }, [id])
 
-  useEffect(() => {
-    fetch()
-  }, [fetch])
+    return transformPost(data)
+  })
 
   return {
-    error,
-    loading,
-    post,
-    reload: () => fetch()
+    error: error?.message,
+    loading: isLoading,
+    post: data,
+    reload: refetch,
+    reloading: isRefetching
   }
 }

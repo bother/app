@@ -10,16 +10,14 @@ import { TextBox } from '../common/text-box'
 
 type Props = {
   post: Post
-
-  reload: () => void
 }
 
-export const AddComment: FunctionComponent<Props> = ({ post, reload }) => {
+export const AddComment: FunctionComponent<Props> = ({ post }) => {
   const { bottom } = useSafeAreaInsets()
 
   const keyboard = useKeyboard('will')
 
-  const { createComment, loading } = useCreateComment(post.id, reload)
+  const { createComment, loading } = useCreateComment(post.id)
 
   const [body, setBody] = useState('')
 
@@ -31,13 +29,17 @@ export const AddComment: FunctionComponent<Props> = ({ post, reload }) => {
         editable={!loading}
         onChangeText={(body) => setBody(body)}
         onSubmitEditing={async () => {
-          if (!body) {
+          if (!body || loading) {
             return
           }
 
-          await createComment(body)
+          const comment = await createComment({
+            body
+          })
 
-          setBody('')
+          if (comment) {
+            setBody('')
+          }
         }}
         placeholder="Say something nice"
         returnKeyType="send"

@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react'
 import { useWindowDimensions } from 'react-native'
 
 import { PostHeader } from '../components'
+import { useLocation } from '../hooks'
 import { Post } from '../scenes'
 import { MainNavigator } from './main'
 
@@ -16,6 +17,8 @@ export type RootParamList = {
 const { Navigator, Screen } = createStackNavigator<RootParamList>()
 
 export const RootNavigator: FunctionComponent = () => {
+  useLocation()
+
   const { width } = useWindowDimensions()
 
   return (

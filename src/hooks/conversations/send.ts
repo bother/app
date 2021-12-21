@@ -1,52 +1,49 @@
-import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
+import { useMutation } from 'react-query'
 
 import { useAuth } from '../../contexts'
-import { supabase } from '../../lib'
-import { SupabaseMessage } from '../../types'
+import { supabase, transformMessage } from '../../lib'
+import { Message, SupabaseMessage } from '../../types'
+
+type Variables = {
+  body: string
+}
 
 type Returns = {
   loading: boolean
 
-  sendMessage: (body: string) => Promise<void>
+  sendMessage: (data: Variables) => Promise<Message>
 }
 
 export const useSendMessage = (conversationId: number): Returns => {
   const { user } = useAuth()
 
-  const [loading, setLoading] = useState(false)
+  const { isLoading, mutateAsync } = useMutation<Message, Error, Variables>(
+    async ({ body }) => {
+      const { data, error } = await supabase
+        .from<SupabaseMessage>('messages')
+        .insert({
+          body,
+          conversation_id: conversationId,
+          user_id: user.id
+        })
+        .single()
 
-  const sendMessage = useCallback(
-    async (body: string) => {
-      try {
-        setLoading(true)
-
-        if (!user) {
-          throw new Error('Not signed in')
-        }
-
-        const { error } = await supabase
-          .from<SupabaseMessage>('messages')
-          .insert({
-            body,
-            conversation_id: conversationId,
-            user_id: user.id
-          })
-
-        if (error) {
-          throw new Error(error.message)
-        }
-      } catch (error) {
-        Alert.alert('Error', error.message)
-      } finally {
-        setLoading(false)
+      if (error) {
+        throw new Error(error.message)
       }
+
+      return transformMessage(data)
     },
-    [conversationId, user]
+    {
+      onError(error) {
+        Alert.alert('Error', error.message)
+      }
+    }
   )
 
   return {
-    loading,
-    sendMessage
+    loading: isLoading,
+    sendMessage: mutateAsync
   }
 }

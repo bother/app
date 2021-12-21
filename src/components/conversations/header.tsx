@@ -3,9 +3,8 @@ import { Text, View } from 'react-native'
 import { useQueryClient } from 'react-query'
 
 import { useAuth } from '../../contexts'
-import { usePost } from '../../hooks'
+import { useLocation, usePost } from '../../hooks'
 import { getKm } from '../../lib'
-import { useLocation } from '../../stores'
 import { tw } from '../../styles'
 import { Conversation } from '../../types'
 import { Avatar } from '../common/avatar'
@@ -69,7 +68,7 @@ type DistanceProps = {
 const Distance: FunctionComponent<DistanceProps> = ({ postId }) => {
   const { post } = usePost(postId)
 
-  const [{ coordinates }] = useLocation()
+  const { coordinates } = useLocation()
 
   if (!post || !coordinates) {
     return null

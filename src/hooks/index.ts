@@ -1,12 +1,12 @@
 // auth
 
-export { useAuth } from './auth'
+export { useSignIn } from './auth/sign-in'
 
 // posts
 
 export { useCreatePost } from './posts/create'
 export { usePost } from './posts/post'
-export { usePosts } from './posts/posts'
+export { PostsReturns, usePosts } from './posts/posts'
 
 // comments
 
@@ -23,3 +23,4 @@ export { useStartConversation } from './conversations/start'
 // utils
 
 export { useKeyboard } from './utils/keyboard'
+export { useLocation } from './utils/location'

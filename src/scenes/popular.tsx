@@ -1,26 +1,14 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
 import React, { FunctionComponent } from 'react'
-import { FlatList } from 'react-native'
 
-import { Oops, PostCard, Separator } from '../components'
+import { PostList } from '../components'
 import { usePosts } from '../hooks'
 import { FeedParamList } from '../navigators'
-import { tw } from '../styles'
 
 type Props = MaterialTopTabScreenProps<FeedParamList, 'Popular'>
 
 export const Popular: FunctionComponent<Props> = () => {
-  const { error, posts, reload } = usePosts('popular')
+  const data = usePosts('popular')
 
-  return (
-    <FlatList
-      ItemSeparatorComponent={Separator}
-      ListEmptyComponent={
-        error ? <Oops label="Reload" message={error} onPress={reload} /> : null
-      }
-      contentContainerStyle={tw`flex-grow`}
-      data={posts}
-      renderItem={({ item }) => <PostCard post={item} />}
-    />
-  )
+  return <PostList {...data} />
 }

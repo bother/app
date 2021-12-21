@@ -3,13 +3,53 @@ import groupBy from 'lodash/groupBy'
 import { SectionListData } from 'react-native'
 
 import {
+  Comment,
   Conversation,
   ConversationMember,
   Message,
+  Post,
+  SupabaseComment,
   SupabaseConversationMemberWithProfile,
   SupabaseConversationWithData,
+  SupabaseFeedPost,
   SupabaseMessage
 } from '../types'
+
+export const transformPost = ({
+  body,
+  comments,
+  created_at,
+  id,
+  latitude,
+  longitude,
+  user_id,
+  votes
+}: SupabaseFeedPost): Post => ({
+  body,
+  comments,
+  coordinates: {
+    latitude: latitude,
+    longitude: longitude
+  },
+  createdAt: parseISO(created_at),
+  id,
+  userId: user_id,
+  votes
+})
+
+export const transformComment = ({
+  body,
+  created_at,
+  id,
+  post_id,
+  user_id
+}: SupabaseComment): Comment => ({
+  body,
+  createdAt: parseISO(created_at),
+  id,
+  postId: post_id,
+  userId: user_id
+})
 
 export const transformConversation = ({
   comment_id,

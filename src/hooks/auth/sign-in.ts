@@ -2,13 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import { useCallback, useEffect, useState } from 'react'
 
-import { nanoid, supabase } from '../lib'
+import { nanoid, supabase } from '../../lib'
 
 type Returns = {
   loading: boolean
 }
 
-export const useAuth = (): Returns => {
+export const useSignIn = (): Returns => {
   const [loading, setLoading] = useState(true)
 
   const init = useCallback(async () => {

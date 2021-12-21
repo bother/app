@@ -4,9 +4,9 @@ import { formatDistanceToNowStrict } from 'date-fns'
 import React, { FunctionComponent } from 'react'
 import { Pressable, StyleProp, Text, View, ViewStyle } from 'react-native'
 
+import { useLocation } from '../../hooks'
 import { getKm } from '../../lib'
 import { RootParamList } from '../../navigators'
-import { useLocation } from '../../stores'
 import { tw } from '../../styles'
 import { Post } from '../../types'
 import { Avatar } from '../common/avatar'
@@ -21,7 +21,7 @@ type Props = {
 export const PostCard: FunctionComponent<Props> = ({ post, style, unlink }) => {
   const navigation = useNavigation<StackNavigationProp<RootParamList>>()
 
-  const [{ coordinates }] = useLocation()
+  const { coordinates } = useLocation()
 
   return (
     <Pressable

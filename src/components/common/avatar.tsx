@@ -49,7 +49,7 @@ export const Avatar: FunctionComponent<Props> = ({
     <Pressable
       disabled={loading}
       onPress={() => {
-        if (me || sourceIsConversation) {
+        if (me || sourceIsConversation || loading) {
           return
         }
 

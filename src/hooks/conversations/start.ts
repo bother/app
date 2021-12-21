@@ -1,9 +1,8 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { CommonActions, useNavigation } from '@react-navigation/native'
-import { useCallback, useState } from 'react'
 import { Alert } from 'react-native'
+import { useMutation } from 'react-query'
 
-import { useAuth } from '../../contexts'
 import { isComment, isConversation, supabase } from '../../lib'
 import { MainParamList } from '../../navigators'
 import { AvatarSource } from '../../types'
@@ -11,24 +10,14 @@ import { AvatarSource } from '../../types'
 type Returns = {
   loading?: boolean
 
-  startConversation: () => Promise<void>
+  startConversation: () => Promise<number>
 }
 
 export const useStartConversation = (source: AvatarSource): Returns => {
   const navigation = useNavigation<BottomTabNavigationProp<MainParamList>>()
 
-  const { user } = useAuth()
-
-  const [loading, setLoading] = useState(false)
-
-  const startConversation = useCallback(async () => {
-    try {
-      setLoading(true)
-
-      if (!user) {
-        throw new Error('Not signed in')
-      }
-
+  const { isLoading, mutateAsync } = useMutation<number, Error>(
+    async () => {
       if (isConversation(source)) {
         throw new Error('Invalid input')
       }
@@ -47,24 +36,28 @@ export const useStartConversation = (source: AvatarSource): Returns => {
         throw new Error(error.message)
       }
 
-      navigation.dispatch(
-        CommonActions.navigate('Chat', {
+      return data
+    },
+    {
+      onError(error) {
+        Alert.alert('Error', error.message)
+      },
+      onSuccess(id) {
+        const action = CommonActions.navigate('Chat', {
           initial: false,
           params: {
-            id: data
+            id
           },
           screen: 'Conversation'
         })
-      )
-    } catch (error) {
-      Alert.alert('Error', error.message)
-    } finally {
-      setLoading(false)
+
+        navigation.dispatch(action)
+      }
     }
-  }, [navigation, source, user])
+  )
 
   return {
-    loading,
-    startConversation
+    loading: isLoading,
+    startConversation: mutateAsync
   }
 }

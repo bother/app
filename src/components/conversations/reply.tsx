@@ -26,9 +26,13 @@ export const ChatReply: FunctionComponent<Props> = ({ conversationId }) => {
             return
           }
 
-          await sendMessage(body)
+          const message = await sendMessage({
+            body
+          })
 
-          setBody('')
+          if (message) {
+            setBody('')
+          }
         }}
         placeholder="Say something nice"
         returnKeyType="send"

@@ -23,13 +23,7 @@ export const Conversations: FunctionComponent<Props> = () => {
   }
 
   if (error) {
-    return (
-      <Oops
-        label="Try again"
-        message="Something went wrong."
-        onPress={reload}
-      />
-    )
+    return <Oops label="Refresh" message={error} onPress={reload} />
   }
 
   return (
