@@ -1,13 +1,9 @@
 import 'react-native-url-polyfill/auto'
 import 'react-native-gesture-handler'
 
-import { Platform, UIManager } from 'react-native'
+import { setupAnimation } from './src/lib'
 
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true)
-  }
-}
+setupAnimation()
 
 import { Bother } from './src'
 

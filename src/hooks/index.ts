@@ -24,5 +24,6 @@ export { useStartConversation } from './conversations/start'
 
 // utils
 
+export { useCopy } from './utils/copy'
 export { useKeyboard } from './utils/keyboard'
 export { useLocation } from './utils/location'

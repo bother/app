@@ -96,11 +96,19 @@ Community rules:
 
       <View
         style={tw.style(
-          'p-3 items-center rounded-b-lg bg-emerald-200',
-          tooLong && 'bg-rose-200',
-          tooShort && 'bg-amber-200'
+          'items-center rounded-b-lg overflow-hidden bg-gray-200'
         )}>
-        <Text style={tw`text-sm leading-tight text-black font-bother-medium`}>
+        <View
+          style={tw.style(
+            `absolute top-0 bottom-0 left-0 bg-emerald-200 w-[${
+              (body.length / POST_MAX_LENGTH) * 100
+            }%]`,
+            tooLong && 'bg-rose-200',
+            tooShort && 'bg-amber-200'
+          )}
+        />
+        <Text
+          style={tw`m-3 text-sm leading-tight text-black font-bother-medium`}>
           {body.length} / {POST_MAX_LENGTH}
         </Text>
       </View>

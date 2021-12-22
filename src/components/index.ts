@@ -39,4 +39,4 @@ export { ChatSectionHeader } from './conversations/section'
 // profile
 
 export { ProfileCard } from './profile/card'
-export { ProfileEdit } from './profile/edit'
+export { ProfileEdit, ProfileEditRef } from './profile/edit'
