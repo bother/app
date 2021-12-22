@@ -14,17 +14,13 @@ export const ProfileCard: FunctionComponent<Props> = ({ profile }) => (
     <Avatar size={48} source={profile} />
 
     <View style={tw`ml-4`}>
-      {profile.age && (
-        <Text style={tw`text-base text-black font-bother-medium`}>
-          {profile.age}
-        </Text>
-      )}
+      <Text style={tw`text-base text-black font-bother-medium`}>
+        {profile.age ?? 'No age'}
+      </Text>
 
-      {profile.gender && (
-        <Text style={tw`text-base text-black font-bother-medium`}>
-          {profile.gender}
-        </Text>
-      )}
+      <Text style={tw`text-base text-black font-bother-medium`}>
+        {profile.gender ?? 'No gender'}
+      </Text>
     </View>
   </View>
 )

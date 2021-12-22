@@ -30,8 +30,11 @@ export const Profile: FunctionComponent<Props> = ({ navigation }) => {
 
   return (
     <PostList
-      header={<Main {...profile} navigation={navigation} />}
       {...posts}
+      header={<Main {...profile} navigation={navigation} />}
+      label="Post something"
+      message="You haven't created any posts yet"
+      onPress={() => navigation.navigate('CreatePost')}
     />
   )
 }

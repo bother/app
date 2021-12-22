@@ -1,9 +1,8 @@
-import React, { FunctionComponent } from 'react'
-import { FlatList, FlatListProps } from 'react-native'
+import React, { FunctionComponent, ReactElement } from 'react'
+import { FlatList } from 'react-native'
 
 import { PostsReturns } from '../../hooks'
 import { tw } from '../../styles'
-import { Post } from '../../types'
 import { Loading } from '../common/loading'
 import { Oops } from '../common/oops'
 import { Refresher } from '../common/refresher'
@@ -11,13 +10,20 @@ import { Separator } from '../common/separator'
 import { PostCard } from './card'
 
 type Props = PostsReturns & {
-  header?: FlatListProps<Post>['ListHeaderComponent']
+  header?: ReactElement
+  label?: string
+  message?: string
+
+  onPress?: () => void
 }
 
 export const PostList: FunctionComponent<Props> = ({
   error,
   header,
+  label,
   loading,
+  message,
+  onPress,
   posts,
   reload,
   reloading
@@ -32,9 +38,9 @@ export const PostList: FunctionComponent<Props> = ({
       ListEmptyComponent={
         <Oops
           icon={error ? 'error' : 'empty'}
-          label="Refresh"
-          message={error ?? 'Nothing here'}
-          onPress={reload}
+          label={label ?? 'Refresh'}
+          message={error ?? message ?? 'Nothing here'}
+          onPress={onPress ?? reload}
         />
       }
       ListHeaderComponent={header}

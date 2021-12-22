@@ -7,11 +7,11 @@ import { Button } from './button'
 
 type Props = {
   icon?: keyof typeof icons
-  label: string
+  label?: string
   loading?: boolean
   message: string
 
-  onPress: () => void
+  onPress?: () => void
 }
 
 export const Oops: FunctionComponent<Props> = ({
@@ -31,11 +31,18 @@ export const Oops: FunctionComponent<Props> = ({
     </Svg>
 
     <Text
-      style={tw`mx-8 my-8 text-xl text-center text-black font-bother-medium`}>
+      style={tw`mx-8 mt-8 text-xl text-center text-black font-bother-medium`}>
       {message}
     </Text>
 
-    <Button loading={loading} onPress={onPress} title={label} />
+    {!!label && onPress && (
+      <Button
+        loading={loading}
+        onPress={onPress}
+        style={tw`mt-8`}
+        title={label}
+      />
+    )}
   </View>
 )
 

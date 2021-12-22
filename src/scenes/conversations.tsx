@@ -11,6 +11,7 @@ import {
 } from '../components'
 import { useConversations } from '../hooks'
 import { ChatParamList } from '../navigators'
+import { tw } from '../styles'
 
 type Props = BottomTabScreenProps<ChatParamList, 'Conversations'>
 
@@ -29,6 +30,13 @@ export const Conversations: FunctionComponent<Props> = () => {
   return (
     <FlatList
       ItemSeparatorComponent={Separator}
+      ListEmptyComponent={
+        <Oops
+          icon="empty"
+          message="You haven't started any conversations yet"
+        />
+      }
+      contentContainerStyle={tw`flex-grow`}
       data={conversations}
       refreshControl={<Refresher onRefresh={reload} refreshing={reloading} />}
       renderItem={({ item }) => <ConversationCard conversation={item} />}

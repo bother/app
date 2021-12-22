@@ -54,7 +54,7 @@ export const ProfileEdit = forwardRef<ProfileEditRef, Props>(
           onChangeText={(age) => setAge(Number(age.replace(/[^\d]/g, '')))}
           placeholder="Age"
           style={tw`mt-2 bg-white`}
-          value={age !== undefined ? String(age) : null}
+          value={age ? String(age) : null}
         />
 
         <Text style={tw`mt-4 text-lg text-gray-600 font-bother-medium`}>
